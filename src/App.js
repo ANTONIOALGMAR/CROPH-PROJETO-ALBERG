@@ -25,6 +25,12 @@ const App = () => {
             path="/orientador"
             element={<PrivateRoute element={<OrientadorPage />} role="orientador" />}
           />
+
+          <Route
+            path="/ocorrencias"
+            element={<PrivateRoute element={<OcorrenciasPage />} role="orientador" />}
+          />
+
         </Routes>
       </Router>
     </AuthProvider>
