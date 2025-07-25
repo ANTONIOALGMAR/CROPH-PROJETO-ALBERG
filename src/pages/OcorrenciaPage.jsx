@@ -2,42 +2,41 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
-interface Ocorrencia {
-  id: string;
-  descricao: string;
-  data: string;
-  autor: {
-    nome: string;
-  };
-}
-
-const OcorrenciasPage: React.FC = () => {
+const OcorrenciasPage = () => {
   const { token } = useAuth();
   const [descricao, setDescricao] = useState('');
-  const [ocorrencias, setOcorrencias] = useState<Ocorrencia[]>([]);
+  const [ocorrencias, setOcorrencias] = useState([]);
 
   const fetchOcorrencias = useCallback(async () => {
-    const res = await axios.get('http://localhost:5000/api/ocorrencias', {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setOcorrencias(res.data);
+    try {
+      const res = await axios.get('http://localhost:5000/api/ocorrencias', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setOcorrencias(res.data);
+    } catch (error) {
+      console.error('Erro ao buscar ocorrências:', error);
+    }
   }, [token]);
 
   useEffect(() => {
     fetchOcorrencias();
   }, [fetchOcorrencias]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!descricao.trim()) return;
 
-    await axios.post(
-      'http://localhost:5000/api/ocorrencias',
-      { descricao },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    setDescricao('');
-    fetchOcorrencias();
+    try {
+      await axios.post(
+        'http://localhost:5000/api/ocorrencias',
+        { descricao },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setDescricao('');
+      fetchOcorrencias();
+    } catch (error) {
+      console.error('Erro ao enviar ocorrência:', error);
+    }
   };
 
   return (
@@ -64,7 +63,7 @@ const OcorrenciasPage: React.FC = () => {
         {ocorrencias.map((oc) => (
           <div key={oc.id} className="border p-3 rounded bg-gray-50">
             <p className="text-sm text-gray-600">
-              <strong>{oc.autor.nome}</strong> —{' '}
+              <strong>{oc.autor?.nome}</strong> —{' '}
               {new Date(oc.data).toLocaleString()}
             </p>
             <p className="mt-1">{oc.descricao}</p>

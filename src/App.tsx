@@ -6,6 +6,9 @@ import AssistentePage from './pages/AssistentePage';
 import OrientadorPage from './pages/OrientadorPage';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
+import OcorrenciasPage from './pages/OcorrenciaPage';
+
+
 
 const App = () => {
   return (

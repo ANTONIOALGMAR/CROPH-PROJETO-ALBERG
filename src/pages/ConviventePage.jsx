@@ -2,33 +2,24 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
-type Convivente = {
-  id: string;
-  nome: string;
-  leito: string;
-  quarto: string;
-  responsavel: string;
-};
-
 const ConviventesPage = () => {
   const { token } = useAuth();
-  const [conviventes, setConviventes] = useState<Convivente[]>([]);
+  const [conviventes, setConviventes] = useState([]);
 
   useEffect(() => {
-  const fetchConviventes = async () => {
-    try {
-      const res = await axios.get('http://localhost:5000/api/conviventes', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setConviventes(res.data);
-    } catch (error) {
-      console.error('Erro ao buscar conviventes:', error);
-    }
-  };
+    const fetchConviventes = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/conviventes', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setConviventes(res.data);
+      } catch (error) {
+        console.error('Erro ao buscar conviventes:', error);
+      }
+    };
 
-  fetchConviventes();
-}, [token]); // Token como dependência
-
+    fetchConviventes();
+  }, [token]);
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-4 bg-white rounded shadow">
@@ -59,3 +50,4 @@ const ConviventesPage = () => {
 };
 
 export default ConviventesPage;
+
