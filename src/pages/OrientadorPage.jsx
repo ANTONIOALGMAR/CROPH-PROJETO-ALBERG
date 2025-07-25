@@ -6,12 +6,11 @@ const OrientadorPage = () => {
   const [cadastros, setCadastros] = useState([]);
 
   useEffect(() => {
-    // Buscar dados da API, ou usar estado inicial
-    setCadastros([
-      { leito: 2, nome: 'Ana Souza' },
-      { leito: 5, nome: 'Carlos Lima' },
-    ]);
-  }, []);
+  fetch('http://localhost:5000/api/conviventes')
+    .then(r => r.json())
+    .then(data => setCadastros(data));
+}, []);
+
 
   return (
     <div>

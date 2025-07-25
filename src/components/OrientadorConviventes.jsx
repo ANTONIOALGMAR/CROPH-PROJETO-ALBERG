@@ -1,24 +1,40 @@
 import React from 'react';
 
 const OrientadorConviventes = ({ cadastros }) => {
-  // Verificação se cadastros é um array
   const list = Array.isArray(cadastros) ? cadastros : [];
-
-  // Ordena a lista de cadastros pelo número do leito
   const sorted = list.sort((a, b) => a.leito - b.leito);
 
   return (
-    <table>
+    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
-        <tr><th>Leito</th><th>Foto</th><th>Nome</th></tr>
+        <tr>
+          <th>Leito</th>
+          <th>Foto</th>
+          <th>Nome</th>
+        </tr>
       </thead>
       <tbody>
         {sorted.map((c, i) => (
-          <tr key={i}>
+          <tr key={c._id || i}>
             <td>{c.leito}</td>
             <td>
-              {c.photoUrl && (
-                <img src={c.photoUrl} alt={c.nome} style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '50%' }} />
+              {c.photoUrl ? (
+                <img
+                  src={c.photoUrl}
+                  alt={c.nome}
+                  style={{
+                    width: 50,
+                    height: 50,
+                    objectFit: 'cover',
+                    borderRadius: '50%',
+                  }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/default-avatar.png';
+                  }}
+                />
+              ) : (
+                <div style={{ width: 50, height: 50 }} />
               )}
             </td>
             <td>{c.nome}</td>
@@ -30,4 +46,5 @@ const OrientadorConviventes = ({ cadastros }) => {
 };
 
 export default OrientadorConviventes;
+
 

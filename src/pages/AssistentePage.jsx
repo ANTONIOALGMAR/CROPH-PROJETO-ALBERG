@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LeitosGrid from '../components/LeitosGrid';
 
 const AssistentePage = () => {
@@ -7,86 +7,113 @@ const AssistentePage = () => {
   const [nome, setNome] = useState('');
   const [cpf, setCpf] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
+  const [photoFile, setPhotoFile] = useState(null);
+  const [preview, setPreview] = useState('');
   const [editIndex, setEditIndex] = useState(null);
 
-  const occupiedLeitos = cadastros.map(c => parseInt(c.leito, 10));
+  useEffect(() => {
+    fetch('http://localhost:5000/api/conviventes')
+      .then(res => res.json())
+      .then(data => setCadastros(data))
+      .catch(err => console.error('Erro ao buscar dados:', err));
+  }, []);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const parsedLeito = parseInt(leito, 10);
+  const occupiedLeitos = cadastros.map(c => c.leito);
 
-    if (isNaN(parsedLeito)) {
-      alert('Informe um número válido de leito');
-      return;
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setPhotoFile(file);
+    if (file) {
+      setPreview(URL.createObjectURL(file));
     }
-
-    if (editIndex !== null) {
-      const updated = cadastros.map((c, i) =>
-        i === editIndex ? { leito: parsedLeito, nome, cpf, dataNascimento } : c
-      );
-      setCadastros(updated);
-      setEditIndex(null);
-    } else {
-      if (cadastros.some(c => parseInt(c.leito, 10) === parsedLeito)) {
-        alert('Leito já ocupado!');
-        return;
-      }
-      setCadastros(prev => [
-        ...prev,
-        { leito: parsedLeito, nome, cpf, dataNascimento }
-      ]);
-    }
-
-    clearForm();
-  };
-
-  const handleEdit = index => {
-    const c = cadastros[index];
-    setLeito(c.leito.toString());
-    setNome(c.nome);
-    setCpf(c.cpf);
-    setDataNascimento(c.dataNascimento);
-    setEditIndex(index);
-  };
-
-  const handleDelete = index => {
-    setCadastros(prev => prev.filter((_, i) => i !== index));
-    clearForm();
-    if (editIndex === index) setEditIndex(null);
   };
 
   const clearForm = () => {
-    setLeito(''); setNome(''); setCpf(''); setDataNascimento('');
+    setLeito('');
+    setNome('');
+    setCpf('');
+    setDataNascimento('');
+    setPhotoFile(null);
+    setPreview('');
+    setEditIndex(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const parsedLeito = parseInt(leito, 10);
+    if (isNaN(parsedLeito)) return alert('Informe um número válido de leito');
+
+    const formData = new FormData();
+    formData.append('leito', parsedLeito);
+    formData.append('nome', nome);
+    formData.append('cpf', cpf);
+    formData.append('dataNascimento', dataNascimento);
+    if (photoFile) formData.append('photo', photoFile);
+
+    if (editIndex !== null) {
+      const id = cadastros[editIndex]._id;
+      const resp = await fetch(`http://localhost:5000/api/conviventes/${id}`, {
+        method: 'PUT',
+        body: formData,
+      });
+      const updated = await resp.json();
+      setCadastros(prev => prev.map(c => (c._id === id ? updated : c)));
+    } else {
+      const resp = await fetch('http://localhost:5000/api/conviventes', {
+        method: 'POST',
+        body: formData,
+      });
+      const saved = await resp.json();
+      setCadastros(prev => [...prev, saved]);
+    }
+
+    clearForm();
+  };
+
+  const handleEdit = (i) => {
+    const c = cadastros[i];
+    setLeito(c.leito.toString());
+    setNome(c.nome);
+    setCpf(c.cpf);
+    setDataNascimento(c.dataNascimento.split('T')[0]);
+    setPreview(c.photoUrl || '');
+    setEditIndex(i);
+  };
+
+  const handleDelete = async (i) => {
+    const id = cadastros[i]._id;
+    await fetch(`http://localhost:5000/api/conviventes/${id}`, {
+      method: 'DELETE',
+    });
+    setCadastros(prev => prev.filter((_, idx) => idx !== i));
+    clearForm();
   };
 
   return (
-    <div style={{ maxWidth: 500, margin: 'auto' }}>
+    <div style={{ maxWidth: 600, margin: 'auto', padding: 16 }}>
       <h2>Cadastro de Conviventes</h2>
       <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 8 }}>
-        <input
-          type="number" placeholder="Leito (número)"
-          value={leito} onChange={e => setLeito(e.target.value)} required
-        />
-        <input
-          type="text" placeholder="Nome"
-          value={nome} onChange={e => setNome(e.target.value)} required
-        />
-        <input
-          type="text" placeholder="CPF"
-          value={cpf} onChange={e => setCpf(e.target.value)} required
-        />
-        <input
-          type="date"
-          value={dataNascimento} onChange={e => setDataNascimento(e.target.value)} required
-        />
+        <input type="number" placeholder="Leito" value={leito} onChange={e => setLeito(e.target.value)} required />
+        <input type="text" placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} required />
+        <input type="text" placeholder="CPF" value={cpf} onChange={e => setCpf(e.target.value)} required />
+        <input type="date" value={dataNascimento} onChange={e => setDataNascimento(e.target.value)} required />
+
         <div>
-          <button type="submit">
-            {editIndex !== null ? 'Atualizar' : 'Adicionar'}
-          </button>
+          <label>Foto:</label><br />
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+          {preview && (
+            <img
+              src={preview}
+              alt="preview"
+              style={{ width: 100, height: 100, objectFit: 'cover', marginTop: 8 }}
+            />
+          )}
+        </div>
+
+        <div>
+          <button type="submit">{editIndex !== null ? 'Salvar edição' : 'Cadastrar'}</button>
           {editIndex !== null && (
-            <button type="button" onClick={() => { clearForm(); setEditIndex(null); }}>
-              Cancelar
-            </button>
+            <button type="button" onClick={clearForm}>Cancelar</button>
           )}
         </div>
       </form>
@@ -97,17 +124,24 @@ const AssistentePage = () => {
       ) : (
         <table border="1" cellPadding="4" style={{ width: '100%', marginTop: 16 }}>
           <thead>
-            <tr>
-              <th>Leito</th><th>Nome</th><th>CPF</th><th>Data Nasc.</th><th>Ações</th>
-            </tr>
+            <tr><th>Leito</th><th>Foto</th><th>Nome</th><th>CPF</th><th>Data Nasc.</th><th>Ações</th></tr>
           </thead>
           <tbody>
             {cadastros.map((c, i) => (
-              <tr key={i}>
+              <tr key={c._id}>
                 <td>{c.leito}</td>
+                <td>
+                  {c.photoUrl && (
+                    <img
+                      src={c.photoUrl}
+                      alt={c.nome}
+                      style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '50%' }}
+                    />
+                  )}
+                </td>
                 <td>{c.nome}</td>
                 <td>{c.cpf}</td>
-                <td>{c.dataNascimento}</td>
+                <td>{new Date(c.dataNascimento).toLocaleDateString()}</td>
                 <td>
                   <button onClick={() => handleEdit(i)}>Editar</button>{' '}
                   <button onClick={() => handleDelete(i)}>Excluir</button>
@@ -125,3 +159,4 @@ const AssistentePage = () => {
 };
 
 export default AssistentePage;
+
