@@ -1,20 +1,33 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import AdminPage from './pages/AdminPage'; // Componente para a página do admin
-import AssistentePage from './pages/AssistentePage'; // Componente para a página do assistente
-import OrientadorPage from './pages/OrientadorPage'; // Componente para a página do orientador
+import AdminPage from './pages/AdminPage';
+import AssistentePage from './pages/AssistentePage';
+import OrientadorPage from './pages/OrientadorPage';
+import { AuthProvider } from './context/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/assistente" element={<AssistentePage />} />
-        <Route path="/orientador" element={<OrientadorPage />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route
+            path="/admin"
+            element={<PrivateRoute element={<AdminPage />} role="admin" />}
+          />
+          <Route
+            path="/assistente"
+            element={<PrivateRoute element={<AssistentePage />} role="assistente" />}
+          />
+          <Route
+            path="/orientador"
+            element={<PrivateRoute element={<OrientadorPage />} role="orientador" />}
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 };
 

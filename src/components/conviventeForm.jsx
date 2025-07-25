@@ -1,9 +1,7 @@
 import React from 'react';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import * as yup from 'yup';
-import { cpfMask } from 'react-input-mask-br';
 
-const TOTAL_LEITOS = 158;
 const schema = yup.object().shape({
   nome: yup.string().required('Obrigatório'),
   cpf: yup.string().required('Obrigatório').min(14),
@@ -26,8 +24,6 @@ const ConviventeForm = ({ initialData, occupiedLeitos, onSubmit }) => {
     preview: initialData?.photoUrl || '',
   };
 
-  const disponiveis = Array.from({ length: TOTAL_LEITOS }, (_, i) => i + 1)
-    .filter(n => !occupiedLeitos.includes(n) || initial.leito === n);
 
   return (
     <Formik
