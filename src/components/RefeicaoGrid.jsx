@@ -50,19 +50,26 @@ const RefeicaoGrid = ({ tipoRefeicao, conviventes, dataSelecionada, onRegisterPa
       return;
     }
 
-    const currentParticipation = participacoesLeitos.get(leitoNum);
-    const newParticipationStatus = currentParticipation ? !currentParticipation.participou : true;
+    // Lógica para alternar o status da participação:
+    // 1. Pega a informação atual da participação para este leito
+    const currentParticipationInfo = participacoesLeitos.get(leitoNum);
+    // 2. Determina o novo status: Se já participou, o novo status será FALSE (desmarcar).
+    //    Se não participou (ou não há registro), o novo status será TRUE (marcar).
+    const newParticipationStatus = currentParticipationInfo ? !currentParticipationInfo.participou : true;
 
+    // Chama a função centralizada na OrientadorPage para persistir no backend
     await onRegisterParticipation(
       leitoNum,
       tipoRefeicao,
-      newParticipationStatus,
+      newParticipationStatus, // Envia o novo status
       dataSelecionada
     );
 
+    // Após registrar/alternar, recarrega os dados para refletir o estado atualizado do banco
     fetchParticipations(); 
-    setLeitoInput('');
+    setLeitoInput(''); // Limpa o input
   };
+
 
   const totalLeitos = 158;
   const leitosArray = Array.from({ length: totalLeitos }, (_, i) => i + 1);
@@ -93,15 +100,14 @@ const RefeicaoGrid = ({ tipoRefeicao, conviventes, dataSelecionada, onRegisterPa
         {leitosArray.map((leitoNum) => {
           const participationInfo = participacoesLeitos.get(leitoNum);
           const hasParticipated = participationInfo ? participationInfo.participou : false;
-          // >>> MUDANÇA AQUI: Estamos usando conviventeNome que vem do backend
-          const displayNome = participationInfo ? participationInfo.conviventeNome : null; // Esta é a Opção 2
+          // const displayNome = participationInfo ? participationInfo.conviventeNome : null; // REMOVA OU COMENTE ESTA LINHA
           
-          let backgroundColor = hasParticipated ? '#d4edda' : '#f8d7da';
+          let backgroundColor = hasParticipated ? '#d4edda' : '#f8d7da'; 
           let textColor = hasParticipated ? '#155724' : '#721c24';
-          let borderStyle = '1px solid #c3e6cb';
+          let borderStyle = '1px solid #c3e6cb'; 
           
           if (!hasParticipated) {
-              borderStyle = '1px solid #f5c6cb';
+              borderStyle = '1px solid #f5c6cb'; 
           }
 
           return (
@@ -116,15 +122,15 @@ const RefeicaoGrid = ({ tipoRefeicao, conviventes, dataSelecionada, onRegisterPa
                 borderRadius: '5px',
                 fontWeight: 'bold',
                 boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                minHeight: '60px'
+                display: 'flex', // Mantém flex para centralização
+                flexDirection: 'column', // Mantém flex para centralização
+                justifyContent: 'center', // Mantém flex para centralização
+                alignItems: 'center', // Mantém flex para centralização
+                minHeight: '60px' // Mantém altura mínima
               }}
             >
               <span>{leitoNum}</span>
-              {displayNome && <span style={{ fontSize: '0.75em', opacity: '0.8', marginTop: '3px' }}>{displayNome.split(' ')[0]}</span>}
+              {/* {displayNome && <span style={{ fontSize: '0.75em', opacity: '0.8', marginTop: '3px' }}>{displayNome.split(' ')[0]}</span>} REMOVA OU COMENTE ESTA LINHA */}
             </div>
           );
         })}

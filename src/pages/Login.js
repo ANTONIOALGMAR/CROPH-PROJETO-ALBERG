@@ -13,7 +13,7 @@ const Login = () => {
     setError(''); // Limpa erros anteriores
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', { // <--- ENDPOINT DO SEU BACKEND
+      const response = await fetch('http://localhost:3001/api/login', { // <--- ENDPOINT DO SEU BACKEND
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
