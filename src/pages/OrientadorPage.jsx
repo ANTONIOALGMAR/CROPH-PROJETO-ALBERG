@@ -2,43 +2,48 @@
 import React, { useState, useEffect } from 'react';
 import OrientadorNavbar from '../components/OrientadorNavbar';
 import RefeicaoGrid from '../components/RefeicaoGrid';
-import PresencaGrid from '../components/PresencaGrid';
+import PresencaGrid from '../components/PresencaGrid'; // Certifique-se de que este componente existe ou crie-o
 import { useAuth } from '../context/AuthContext'; // Apenas para checar se o usuário está logado, se necessário
 import { format } from 'date-fns';
 
 const OrientadorPage = () => {
-  // Remova 'token' daqui, pois useAuth não o provê diretamente como prop
-  // const { token } = useAuth(); // <-- REMOVA ESTA LINHA OU MUDE PARA PEGAR 'usuario' se for usar
-  
-  // Adicione um estado para armazenar o token JWT
-  const [jwtToken, setJwtToken] = useState(null); // Renomeei para 'jwtToken' para evitar confusão
-
+  // Adicione um estado para armazenar o token JWT, inicializando-o do localStorage
+  const [jwtToken, setJwtToken] = useState(localStorage.getItem('token')); 
   const [activeGrid, setActiveGrid] = useState('cafe');
   const [conviventes, setConviventes] = useState([]);
+  // Estado para a data selecionada, inicializa com a data de hoje formatada
   const [selectedDate, setSelectedDate] = useState(format(new Date(), 'yyyy-MM-dd'));
 
-  // Use useAuth para obter o objeto de usuário (se precisar de role, etc.)
+  // Use useAuth para obter o objeto de usuário (se precisar de role, etc.).
+  // Não precisamos do 'token' daqui, pois já estamos gerenciando-o com jwtToken.
   const { usuario } = useAuth(); 
 
-  // Efeito para carregar o token do localStorage
+  // Efeito para carregar o token do localStorage se ainda não estiver no estado
+  // (Pode ser redundante com a inicialização direta no useState, mas garante robustez)
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setJwtToken(storedToken); // Define o token no estado
-    } else {
-      // Se não há token, talvez redirecionar para o login
-      // navigate('/login'); 
-      console.warn('Token não encontrado no localStorage. O usuário pode não estar autenticado.');
+    if (!jwtToken) { // Se o token ainda não estiver no estado (ex: após um refresh e o localStorage ter sido limpo)
+      const storedToken = localStorage.getItem('token');
+      if (storedToken) {
+        setJwtToken(storedToken); 
+      } else {
+        console.warn('Token não encontrado no localStorage. O usuário pode não estar autenticado.');
+        // Opcional: Redirecionar para a página de login se não houver token
+        // navigate('/login'); 
+      }
     }
-  }, []); // Executa apenas uma vez ao montar o componente
+  }, [jwtToken]); // Depende de jwtToken para evitar loops infinitos se ele mudar
 
-  // Função para buscar conviventes (esta já estava ok, usando o token do useAuth)
+  // Função para buscar conviventes
   useEffect(() => {
     const fetchConviventes = async () => {
+      if (!jwtToken) {
+        console.warn('Token JWT não disponível. Não foi possível buscar conviventes.');
+        return;
+      }
       try {
         const res = await fetch('http://localhost:5000/api/conviventes', {
           headers: {
-            Authorization: `Bearer ${jwtToken}` // Use jwtToken aqui
+            Authorization: `Bearer ${jwtToken}` // Use jwtToken aqui para autenticação
           }
         });
         if (!res.ok) {
@@ -48,47 +53,71 @@ const OrientadorPage = () => {
         setConviventes(data);
       } catch (error) {
         console.error('Erro ao buscar conviventes para o Orientador:', error);
+        alert('Erro ao carregar a lista de conviventes.');
       }
     };
 
-    if (jwtToken) { // Agora dependa do estado jwtToken
+    if (jwtToken) { // Só busca conviventes se o token estiver disponível
       fetchConviventes();
     }
-  }, [jwtToken]); // Depende do jwtToken
+  }, [jwtToken]); // Depende do jwtToken para re-executar se ele mudar
 
-  // Função para lidar com o registro de participação
-  const handleRegisterParticipation = async (conviventeId, leito, tipoEvento, participou, dataEvento) => {
+  // Função para lidar com o registro de participação (refeição ou presença)
+  const handleRegisterParticipation = async (leito, tipoEvento, participou, dataEvento) => {
+    if (!jwtToken) {
+      alert('Você precisa estar logado para registrar participações.');
+      return;
+    }
+
     try {
       let url = '';
       let body = {};
+
+      // Buscar o convivente associado a este leito no momento da ação
+      // Isso é feito no frontend para enviar o conviventeId ao backend, se ele existir
+      const conviventeNoLeito = conviventes.find(c => parseInt(c.leito, 10) === leito);
+      const conviventeId = conviventeNoLeito ? conviventeNoLeito.id : null; // Use c.id se seu modelo usa 'id'
+
       if (['CAFE', 'ALMOCO', 'JANTAR'].includes(tipoEvento)) {
         url = 'http://localhost:5000/api/participacao-refeicao';
-        // Adapte o body para corresponder ao que seu backend espera no POST
-        body = { conviventeId, leito, tipo: tipoEvento, participou, data: dataEvento }; // Usando 'tipo' e 'data'
+        body = {
+          leito: leito,
+          tipo: tipoEvento,
+          data: dataEvento, // Nome da propriedade 'data'
+          participou: participou,
+          conviventeId: conviventeId // Envia o ID do convivente, pode ser null
+        };
       } else if (tipoEvento === 'PRESENCA') {
         url = 'http://localhost:5000/api/presenca';
-        body = { conviventeId, dataPresenca: dataEvento, presente: participou };
+        body = {
+          leito: leito,
+          data: dataEvento, // Nome da propriedade 'data'
+          presente: participou,
+          conviventeId: conviventeId // Envia o ID do convivente, pode ser null
+        };
       } else {
         console.error('Tipo de evento desconhecido:', tipoEvento);
         return;
       }
 
-      const res = await fetch(url, {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${jwtToken}` // Use jwtToken aqui também!
+          'Authorization': `Bearer ${jwtToken}`
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(body)
       });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(`Erro ao registrar ${tipoEvento}: ${errorData.error || errorData.msg || res.statusText}`); // Adicionado errorData.msg
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.msg || `HTTP error! status: ${response.status}`);
       }
 
-      console.log(`Evento ${tipoEvento} para leito ${leito} na data ${dataEvento} registrado/atualizado com sucesso!`);
-      // Não se esqueça que o RefeicaoGrid ainda precisa recarregar os dados após o sucesso
+      const result = await response.json();
+      console.log('Registro de participação/presença bem-sucedido:', result);
+      // O grid que chamou esta função geralmente tem sua própria lógica para recarregar dados
+      // após o sucesso desta operação.
     } catch (error) {
       console.error('Erro ao registrar evento:', error.message);
       alert(`Erro ao registrar evento: ${error.message}`);
@@ -99,6 +128,7 @@ const OrientadorPage = () => {
     <div style={{ maxWidth: '900px', margin: '20px auto', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }}>
       <h1 style={{ textAlign: 'center', marginBottom: '30px', color: '#333' }}>Página do Orientador</h1>
       
+      {/* Seletor de Data */}
       <div style={{ marginBottom: '20px', textAlign: 'center' }}>
         <label htmlFor="eventDate" style={{ marginRight: '10px', fontWeight: 'bold' }}>Data do Evento:</label>
         <input
@@ -110,6 +140,7 @@ const OrientadorPage = () => {
         />
       </div>
 
+      {/* Navbar para seleção do grid de refeição e presença */}
       <OrientadorNavbar onSelectGrid={setActiveGrid} />
 
       {/* Renderiza o grid ativo APENAS SE O TOKEN ESTIVER DISPONÍVEL */}
@@ -118,46 +149,47 @@ const OrientadorPage = () => {
           {activeGrid === 'cafe' && (
             <RefeicaoGrid 
               tipoRefeicao="CAFE" 
-              conviventes={conviventes} 
+              conviventes={conviventes} // Mantemos conviventes aqui caso o RefeicaoGrid precise dele para display (ex: nome do convivente)
               dataSelecionada={selectedDate}
               onRegisterParticipation={handleRegisterParticipation}
-              token={jwtToken} // <--- PASSE jwtToken AQUI! 
+              token={jwtToken} 
             />
           )}
           {activeGrid === 'almoco' && (
             <RefeicaoGrid 
               tipoRefeicao="ALMOCO" 
-              conviventes={conviventes} 
+              conviventes={conviventes}
               dataSelecionada={selectedDate}
               onRegisterParticipation={handleRegisterParticipation}
-              token={jwtToken} // <--- PASSE jwtToken AQUI! 
+              token={jwtToken} 
             />
           )}
           {activeGrid === 'jantar' && (
             <RefeicaoGrid 
               tipoRefeicao="JANTAR" 
-              conviventes={conviventes} 
+              conviventes={conviventes}
               dataSelecionada={selectedDate}
               onRegisterParticipation={handleRegisterParticipation}
-              token={jwtToken} // <--- PASSE jwtToken AQUI! 
+              token={jwtToken} 
             />
           )}
-          {activeGrid === 'presenca' && (
+          {activeGrid === 'presenca' && ( // Certifique-se de que PresencaGrid exista e seja compatível
             <PresencaGrid 
               conviventes={conviventes} 
               dataSelecionada={selectedDate}
               onRegisterParticipation={handleRegisterParticipation}
-              token={jwtToken} // <--- PASSE jwtToken AQUI! 
+              token={jwtToken} 
             />
           )}
         </>
       ) : (
-        <p>Carregando informações de autenticação...</p> // Ou um spinner, ou redirecionamento
+        <p>Carregando informações de autenticação...</p> // Ou um spinner, ou redirecionamento para login
       )}
 
+      {/* Lista de Conviventes Cadastrados */}
       <div style={{ marginTop: '40px', borderTop: '1px solid #eee', paddingTop: '20px' }}>
         <h3 style={{ marginBottom: '20px', color: '#333' }}>Conviventes Cadastrados (por Assistente)</h3>
-        {conviventes.length === 0 && !usuario ? ( // Mostra "Carregando" se não tiver conviventes e usuário (token) não estiver carregado
+        {conviventes.length === 0 && !usuario ? ( 
           <p>Carregando conviventes...</p>
         ) : conviventes.length === 0 ? (
           <p>Nenhum convivente encontrado.</p>

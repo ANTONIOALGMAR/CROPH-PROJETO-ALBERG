@@ -3,16 +3,17 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 const PresencaGrid = ({ conviventes, dataSelecionada, onRegisterParticipation, token }) => {
   const [leitoInput, setLeitoInput] = useState('');
-  const [presencaLeitos, setPresencaLeitos] = useState(new Set()); // Leitos presentes
+  // participacoesLeitos agora armazena um Map: leitoNum -> { presente: boolean, conviventeNome: string }
+  const [presencasLeitos, setPresencasLeitos] = useState(new Map()); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Função para buscar os registros de presença do backend
-  const fetchPresenca = useCallback(async () => {
+  // A função fetchPresences agora busca presenças baseadas no leito
+  const fetchPresences = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const formattedDate = dataSelecionada; // Já está em YYYY-MM-DD
+      const formattedDate = dataSelecionada; // A data já vem formatada do OrientadorPage
       const res = await fetch(`http://localhost:5000/api/presenca?data=${formattedDate}`, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -22,21 +23,28 @@ const PresencaGrid = ({ conviventes, dataSelecionada, onRegisterParticipation, t
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const data = await res.json();
-      // Filtra apenas os que estão presentes (presente: true) e pega o leito do convivente
-      const leitosPresentes = new Set(data.filter(p => p.presente).map(p => p.convivente.leito));
-      setPresencaLeitos(leitosPresentes);
+      
+      // Criar um Map das presenças para acesso rápido e incluir info do convivente
+      const newPresencasMap = new Map();
+      data.forEach(p => {
+        newPresencasMap.set(p.leito, {
+          presente: p.presente,
+          conviventeNome: p.convivente ? p.convivente.nome : null // Pega o nome do convivente se existir
+        });
+      });
+      setPresencasLeitos(newPresencasMap);
+
     } catch (err) {
-      console.error(`Erro ao buscar registros de presença para ${dataSelecionada}:`, err);
+      console.error(`Erro ao buscar presenças para ${dataSelecionada}:`, err);
       setError('Erro ao carregar dados de presença.');
     } finally {
       setLoading(false);
     }
-  }, [dataSelecionada, token]);
+  }, [dataSelecionada, token]); // Depende da data selecionada e do token
 
-  // Efeito para carregar os registros de presença sempre que a dataSelecionada mudar
   useEffect(() => {
-    fetchPresenca();
-  }, [fetchPresenca]);
+    fetchPresences();
+  }, [fetchPresences]); // Depende de fetchPresences (que já tem as dependências corretas)
 
   const handleRegister = async () => {
     const leitoNum = parseInt(leitoInput, 10);
@@ -45,32 +53,24 @@ const PresencaGrid = ({ conviventes, dataSelecionada, onRegisterParticipation, t
       return;
     }
 
-    const conviventeNoLeito = conviventes.find(c => parseInt(c.leito, 10) === leitoNum);
-
-    if (!conviventeNoLeito) {
-      alert(`Não há convivente cadastrado para o leito ${leitoNum}.`);
-      return;
-    }
-
-    // Determina se o convivente está atualmente presente para alternar o status
-    const isCurrentlyPresent = presencaLeitos.has(leitoNum);
-    const newPresenceStatus = !isCurrentlyPresent;
+    // Verifica o status atual da presença para alternar
+    const currentPresence = presencasLeitos.get(leitoNum);
+    const newPresenceStatus = currentPresence ? !currentPresence.presente : true; // Se não existe, assume que não está presente e marca como true
 
     // Chama a função centralizada na OrientadorPage para persistir no backend
+    // O tipoEvento será 'PRESENCA' para este grid
     await onRegisterParticipation(
-      conviventeNoLeito._id, // ID do convivente
       leitoNum,
-      'PRESENCA', // Tipo de evento para presença
+      'PRESENCA', // Tipo de evento específico para Presença
       newPresenceStatus,
-      dataSelecionada // Data do evento
+      dataSelecionada
     );
 
-    // Após a chamada ao backend, recarrega os dados para refletir o estado real
-    fetchPresenca();
+    // Após registrar, recarrega os dados para refletir o estado atualizado do banco
+    fetchPresences(); 
     setLeitoInput(''); // Limpa o input
   };
 
-  // ATUALIZE A QUANTIDADE TOTAL DE LEITOS AQUI
   const totalLeitos = 158;
   const leitosArray = Array.from({ length: totalLeitos }, (_, i) => i + 1);
 
@@ -81,11 +81,11 @@ const PresencaGrid = ({ conviventes, dataSelecionada, onRegisterParticipation, t
       <div style={{ marginBottom: '20px', display: 'flex', gap: '10px', alignItems: 'center' }}>
         <input
           type="number"
-          placeholder="Número do Leito"
+          placeholder="Número do Leito (1-158)"
           value={leitoInput}
           onChange={(e) => setLeitoInput(e.target.value)}
           min="1"
-          max="154"
+          max="158"
           style={{ padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
         />
         <button onClick={handleRegister} style={{ padding: '8px 15px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
@@ -93,29 +93,23 @@ const PresencaGrid = ({ conviventes, dataSelecionada, onRegisterParticipation, t
         </button>
       </div>
 
-      {loading && <p>Carregando registros de presença...</p>}
+      {loading && <p>Carregando presenças...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))', gap: '5px' }}>
         {leitosArray.map((leitoNum) => {
-          const conviventeNoLeito = conviventes.find(c => parseInt(c.leito, 10) === leitoNum);
-          const isOccupiedByConvivente = !!conviventeNoLeito;
-          const isPresent = presencaLeitos.has(leitoNum);
-
-          let backgroundColor = '#f0f0f0'; // Cor padrão (leito vazio/não verificado)
-          let textColor = '#333';
-          let borderStyle = '1px solid #ccc';
-
-          if (isOccupiedByConvivente) {
-            if (isPresent) {
-              backgroundColor = '#28a745'; // Convivente presente (verde)
-              textColor = 'white';
-            } else {
-              backgroundColor = '#dc3545'; // Convivente ausente (vermelho)
-              textColor = 'white';
-            }
+          const presenceInfo = presencasLeitos.get(leitoNum);
+          const isPresent = presenceInfo ? presenceInfo.presente : false; // Renomeado para isPresent
+          const displayNome = presenceInfo ? presenceInfo.conviventeNome : null;
+          
+          // Cores para Presença
+          let backgroundColor = isPresent ? '#cce5ff' : '#ffeeba'; // Azul claro para presente, Amarelo claro para ausente
+          let textColor = isPresent ? '#004085' : '#856404';
+          let borderStyle = '1px solid #b8daff'; // Borda azul clara para presente
+          
+          if (!isPresent) {
+              borderStyle = '1px solid #ffeeba'; // Borda amarela clara para ausente
           }
-          // Se não estiver ocupado por convivente, permanece cinza/padrão
 
           return (
             <div
@@ -128,10 +122,16 @@ const PresencaGrid = ({ conviventes, dataSelecionada, onRegisterParticipation, t
                 color: textColor,
                 borderRadius: '5px',
                 fontWeight: 'bold',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: '60px'
               }}
             >
-              {leitoNum}
+              <span>{leitoNum}</span>
+              {displayNome && <span style={{ fontSize: '0.75em', opacity: '0.8', marginTop: '3px' }}>{displayNome.split(' ')[0]}</span>}
             </div>
           );
         })}

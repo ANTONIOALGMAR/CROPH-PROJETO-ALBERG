@@ -3,17 +3,15 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 const RefeicaoGrid = ({ tipoRefeicao, conviventes, dataSelecionada, onRegisterParticipation, token }) => {
   const [leitoInput, setLeitoInput] = useState('');
-  // participacoes agora é um Set para busca rápida (leitos que participaram)
-  const [participacoesLeitos, setParticipacoesLeitos] = useState(new Set());
+  const [participacoesLeitos, setParticipacoesLeitos] = useState(new Map()); // Map: leitoNum -> { participou: boolean, conviventeNome: string }
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Função para buscar as participações do backend
   const fetchParticipations = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const formattedDate = dataSelecionada; // Já está em YYYY-MM-DD
+      const formattedDate = dataSelecionada;
       const res = await fetch(`http://localhost:5000/api/participacao-refeicao?tipo=${tipoRefeicao}&data=${formattedDate}`, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -23,9 +21,16 @@ const RefeicaoGrid = ({ tipoRefeicao, conviventes, dataSelecionada, onRegisterPa
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const data = await res.json();
-      // Filtra apenas os que participaram (participou: true) e pega o leito do convivente
-      const leitosParticipantes = new Set(data.filter(p => p.participou).map(p => p.convivente.leito));
-      setParticipacoesLeitos(leitosParticipantes);
+      
+      const newParticipacoesMap = new Map();
+      data.forEach(p => {
+        newParticipacoesMap.set(p.leito, {
+          participou: p.participou,
+          conviventeNome: p.convivente ? p.convivente.nome : null // Mantemos esta linha
+        });
+      });
+      setParticipacoesLeitos(newParticipacoesMap);
+
     } catch (err) {
       console.error(`Erro ao buscar participações de ${tipoRefeicao} para ${dataSelecionada}:`, err);
       setError('Erro ao carregar dados de participação.');
@@ -34,11 +39,9 @@ const RefeicaoGrid = ({ tipoRefeicao, conviventes, dataSelecionada, onRegisterPa
     }
   }, [tipoRefeicao, dataSelecionada, token]);
 
-  // Efeito para carregar as participações sempre que o tipoRefeicao ou dataSelecionada mudarem
   useEffect(() => {
     fetchParticipations();
   }, [fetchParticipations]);
-
 
   const handleRegister = async () => {
     const leitoNum = parseInt(leitoInput, 10);
@@ -47,31 +50,20 @@ const RefeicaoGrid = ({ tipoRefeicao, conviventes, dataSelecionada, onRegisterPa
       return;
     }
 
-    const conviventeNoLeito = conviventes.find(c => parseInt(c.leito, 10) === leitoNum);
+    const currentParticipation = participacoesLeitos.get(leitoNum);
+    const newParticipationStatus = currentParticipation ? !currentParticipation.participou : true;
 
-    if (!conviventeNoLeito) {
-      alert(`Não há convivente cadastrado para o leito ${leitoNum}.`);
-      return;
-    }
-
-    // Determina se o convivente já participou para alternar o status
-    const isCurrentlyParticipating = participacoesLeitos.has(leitoNum);
-    const newParticipationStatus = !isCurrentlyParticipating;
-
-    // Chama a função centralizada na OrientadorPage para persistir no backend
     await onRegisterParticipation(
-      conviventeNoLeito._id, // ID do convivente
       leitoNum,
-      tipoRefeicao, // 'CAFE', 'ALMOCO', 'JANTAR'
+      tipoRefeicao,
       newParticipationStatus,
-      dataSelecionada // Data do evento
+      dataSelecionada
     );
 
-    // Após a chamada ao backend, recarrega os dados para refletir o estado real
-    fetchParticipations();
-    setLeitoInput(''); // Limpa o input
+    fetchParticipations(); 
+    setLeitoInput('');
   };
-  // ATUALIZE A QUANTIDADE TOTAL DE LEITOS AQUI
+
   const totalLeitos = 158;
   const leitosArray = Array.from({ length: totalLeitos }, (_, i) => i + 1);
 
@@ -82,11 +74,11 @@ const RefeicaoGrid = ({ tipoRefeicao, conviventes, dataSelecionada, onRegisterPa
       <div style={{ marginBottom: '20px', display: 'flex', gap: '10px', alignItems: 'center' }}>
         <input
           type="number"
-          placeholder="Número do Leito"
+          placeholder="Número do Leito (1-158)"
           value={leitoInput}
           onChange={(e) => setLeitoInput(e.target.value)}
           min="1"
-          max="154"
+          max="158"
           style={{ padding: '8px', border: '1px solid #ccc', borderRadius: '4px' }}
         />
         <button onClick={handleRegister} style={{ padding: '8px 15px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
@@ -99,25 +91,18 @@ const RefeicaoGrid = ({ tipoRefeicao, conviventes, dataSelecionada, onRegisterPa
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(60px, 1fr))', gap: '5px' }}>
         {leitosArray.map((leitoNum) => {
-          const conviventeNoLeito = conviventes.find(c => parseInt(c.leito, 10) === leitoNum);
-          const isOccupiedByConvivente = !!conviventeNoLeito; // True se há convivente no leito
-          const hasParticipated = participacoesLeitos.has(leitoNum);
-
-          let backgroundColor = '#f0f0f0'; // Cor padrão (vazio/disponível)
-          let textColor = '#333';
-          let borderStyle = '1px solid #ccc';
-
-          if (isOccupiedByConvivente) {
-            // Leito ocupado por um convivente cadastrado
-            backgroundColor = '#28a745'; // Leito de convivente (verde)
-            textColor = 'white';
-            if (hasParticipated) {
-              backgroundColor = '#ffc107'; // Leito de convivente que participou (amarelo)
-              textColor = '#333';
-            }
+          const participationInfo = participacoesLeitos.get(leitoNum);
+          const hasParticipated = participationInfo ? participationInfo.participou : false;
+          // >>> MUDANÇA AQUI: Estamos usando conviventeNome que vem do backend
+          const displayNome = participationInfo ? participationInfo.conviventeNome : null; // Esta é a Opção 2
+          
+          let backgroundColor = hasParticipated ? '#d4edda' : '#f8d7da';
+          let textColor = hasParticipated ? '#155724' : '#721c24';
+          let borderStyle = '1px solid #c3e6cb';
+          
+          if (!hasParticipated) {
+              borderStyle = '1px solid #f5c6cb';
           }
-          // Se não estiver ocupado por convivente, permanece cinza/padrão
-          // Se estiver ocupado mas não participou, permanece verde
 
           return (
             <div
@@ -130,10 +115,16 @@ const RefeicaoGrid = ({ tipoRefeicao, conviventes, dataSelecionada, onRegisterPa
                 color: textColor,
                 borderRadius: '5px',
                 fontWeight: 'bold',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: '60px'
               }}
             >
-              {leitoNum}
+              <span>{leitoNum}</span>
+              {displayNome && <span style={{ fontSize: '0.75em', opacity: '0.8', marginTop: '3px' }}>{displayNome.split(' ')[0]}</span>}
             </div>
           );
         })}
