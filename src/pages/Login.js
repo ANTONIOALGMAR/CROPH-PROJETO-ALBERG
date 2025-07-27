@@ -2,24 +2,59 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(''); // Este campo será o EMAIL
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => { // Tornar a função assíncrona
     e.preventDefault();
-    
-    // Simulação de autenticação
-    if (username === 'admin' && password === 'admin123') {
-      navigate('/admin');
-    } else if (username === 'assistente' && password === 'assistente123') {
-      navigate('/assistente');
-    } else if (username === 'orientador' && password === 'orientador123') {
-      navigate('/orientador');
-    } else {
-      setError('Nome de usuário ou senha incorretos.');
+    setError(''); // Limpa erros anteriores
+
+    try {
+      const response = await fetch('http://localhost:5000/api/login', { // <--- ENDPOINT DO SEU BACKEND
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ // Envia o email (username) e a senha
+          email: username,    // O backend espera 'email'
+          password: password, // O backend espera 'password'
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) { // Se a resposta for 2xx (sucesso)
+        // Autenticação bem-sucedida
+        // O backend deve retornar um token JWT e/ou informações do usuário
+        // Você deve armazenar o token (ex: localStorage)
+        localStorage.setItem('token', data.token); 
+        // Você pode também armazenar informações do usuário, se retornadas
+        // localStorage.setItem('userRole', data.user.role); 
+
+        // Redirecionar baseado no papel (role) do usuário retornado pelo backend
+        switch (data.user.role) { // Supondo que o backend retorna data.user.role
+          case 'ADMIN': // Use os nomes de role do seu ENUM do Prisma (maiúsculas)
+            navigate('/admin');
+            break;
+          case 'ORIENTADOR':
+            navigate('/orientador');
+            break;
+          case 'ASSISTENTE':
+            navigate('/assistente');
+            break;
+          default:
+            navigate('/'); // Rota padrão se o role não for reconhecido
+        }
+      } else {
+        // Autenticação falhou (ex: status 401 Unauthorized)
+        setError(data.message || 'Nome de usuário ou senha inválidos.'); // Mensagem de erro do backend
+      }
+    } catch (err) {
+      console.error('Erro de rede ou ao tentar login:', err);
+      setError('Ocorreu um erro ao tentar conectar. Tente novamente mais tarde.');
     }
   };
 
@@ -28,7 +63,7 @@ const Login = () => {
       <h2>Tela de Login</h2>
       <form onSubmit={handleLogin}>
         <div>
-          <label>Usuário:</label>
+          <label>Usuário (Email):</label> {/* Sugestão de mudar o label */}
           <input 
             type="text" 
             value={username} 

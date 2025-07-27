@@ -1,12 +1,6 @@
 import React from 'react';
 
-type Props = {
-  loading: boolean;
-  error?: string | null;
-  children: React.ReactNode;
-};
-
-const ProtectedPageWrapper = ({ loading, error, children }: Props) => {
+const ProtectedPageWrapper = ({ loading, error, children }) => {
   if (loading) {
     return (
       <div className="text-center mt-10 text-gray-600">Carregando...</div>
@@ -23,3 +17,4 @@ const ProtectedPageWrapper = ({ loading, error, children }: Props) => {
 };
 
 export default ProtectedPageWrapper;
+

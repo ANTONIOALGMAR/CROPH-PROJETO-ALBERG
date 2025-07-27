@@ -10,6 +10,8 @@ const AssistentePage = () => {
   const [photoFile, setPhotoFile] = useState(null);
   const [preview, setPreview] = useState('');
   const [editIndex, setEditIndex] = useState(null);
+  const [quarto, setQuarto] = useState('');
+  const [assistenteSocial, setAssistenteSocial] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:5000/api/conviventes')
@@ -18,7 +20,7 @@ const AssistentePage = () => {
       .catch(err => console.error('Erro ao buscar dados:', err));
   }, []);
 
-  const occupiedLeitos = cadastros.map(c => c.leito);
+  const occupiedLeitos = cadastros.map(c => parseInt(c.leito, 10));
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -36,21 +38,36 @@ const AssistentePage = () => {
     setPhotoFile(null);
     setPreview('');
     setEditIndex(null);
+    setQuarto('');
+    setAssistenteSocial('');
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const parsedLeito = parseInt(leito, 10);
-    if (isNaN(parsedLeito)) return alert('Informe um número válido de leito');
+  e.preventDefault();
+  const parsedLeito = parseInt(leito, 10);
+  if (isNaN(parsedLeito)) return alert('Informe um número válido de leito');
 
-    const formData = new FormData();
-    formData.append('leito', parsedLeito);
-    formData.append('nome', nome);
-    formData.append('cpf', cpf);
-    formData.append('dataNascimento', dataNascimento);
-    if (photoFile) formData.append('photo', photoFile);
+  // Converte dataNascimento para string ISO-8601 DateTime
+  let formattedDataNascimento = '';
+  if (dataNascimento) {
+    // Criar um objeto Date a partir da string YYYY-MM-DD.
+    // Usar `new Date(dateString + 'T00:00:00Z')` pode ajudar
+    // a garantir que seja analisado como UTC para evitar problemas de fuso horário.
+    formattedDataNascimento = new Date(dataNascimento).toISOString();
+  }
 
-    if (editIndex !== null) {
+  const formData = new FormData();
+  formData.append('leito', parsedLeito);
+  formData.append('nome', nome);
+  formData.append('cpf', cpf);
+  formData.append('dataNascimento', formattedDataNascimento); // <-- USE O VALOR FORMATADO AQUI
+  formData.append('quarto', quarto);
+  formData.append('assistenteSocial', assistenteSocial);
+  if (photoFile) formData.append('photo', photoFile);
+
+  // ... resto da sua função handleSubmit
+  // Código que você já deve ter:
+  if (editIndex !== null) {
       const id = cadastros[editIndex]._id;
       const resp = await fetch(`http://localhost:5000/api/conviventes/${id}`, {
         method: 'PUT',
@@ -68,17 +85,19 @@ const AssistentePage = () => {
     }
 
     clearForm();
-  };
+};
 
   const handleEdit = (i) => {
-    const c = cadastros[i];
-    setLeito(c.leito.toString());
-    setNome(c.nome);
-    setCpf(c.cpf);
-    setDataNascimento(c.dataNascimento.split('T')[0]);
-    setPreview(c.photoUrl || '');
-    setEditIndex(i);
-  };
+  const c = cadastros[i];
+  setLeito(c.leito.toString());
+  setNome(c.nome);
+  setCpf(c.cpf);
+  setDataNascimento(c.dataNascimento.split('T')[0]);
+  setPreview(c.photoUrl || '');
+  setEditIndex(i);
+  setQuarto(c.quarto); // <-- PREENCHA COM O VALOR EXISTENTE
+  setAssistenteSocial(c.assistenteSocial); 
+};
 
   const handleDelete = async (i) => {
     const id = cadastros[i]._id;
@@ -97,7 +116,8 @@ const AssistentePage = () => {
         <input type="text" placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} required />
         <input type="text" placeholder="CPF" value={cpf} onChange={e => setCpf(e.target.value)} required />
         <input type="date" value={dataNascimento} onChange={e => setDataNascimento(e.target.value)} required />
-
+        <input type="number" placeholder="Quarto" value={quarto} onChange={e => setQuarto(e.target.value)} required />
+        <input type="text" placeholder="Assistente Social" value={assistenteSocial} onChange={e => setAssistenteSocial(e.target.value)} required />
         <div>
           <label>Foto:</label><br />
           <input type="file" accept="image/*" onChange={handleFileChange} />
