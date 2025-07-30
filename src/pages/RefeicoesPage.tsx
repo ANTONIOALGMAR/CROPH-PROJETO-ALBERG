@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import axios from 'axios';
 
 interface Convivente {
@@ -16,96 +16,70 @@ interface Refeicao {
   jantar: boolean;
 }
 
-const RefeicoesPage: React.FC = () => {
+const RefeicoesPage: React.FC = (): React.JSX.Element => {
   const [dataSelecionada, setDataSelecionada] = useState<string>(new Date().toISOString().split('T')[0]);
   const [conviventes, setConviventes] = useState<Convivente[]>([]);
-  const [refeicoes, setRefeicoes] = useState<Record<string, Refeicao>>({});
+  const [refeicoes, setRefeicoes] = useState<Record<string, Partial<Refeicao>>>({});
   const [busca, setBusca] = useState('');
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const fetchConviventes = async () => {
-      try {
-        const res = await axios.get('http://localhost:5000/api/conviventes', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setConviventes(res.data);
-      } catch (error) {
-        console.error('Erro ao buscar conviventes:', error);
-      }
-    };
+    axios.get<Convivente[]>('http://localhost:5000/api/conviventes', {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(res => setConviventes(res.data))
+      .catch(err => console.error('Erro ao buscar conviventes:', err));
 
-    const fetchRefeicoes = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/api/refeicoes?data=${dataSelecionada}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const refeicoesMap: Record<string, Refeicao> = {};
-        res.data.forEach((r: Refeicao) => {
-          refeicoesMap[r.conviventeId] = r;
-        });
-        setRefeicoes(refeicoesMap);
-      } catch (error) {
-        console.error('Erro ao buscar refeições:', error);
-      }
-    };
-
-    fetchConviventes();
-    fetchRefeicoes();
+    axios.get<Refeicao[]>(`http://localhost:5000/api/refeicoes?data=${dataSelecionada}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(res => {
+      const map: Record<string, Partial<Refeicao>> = {};
+      res.data.forEach(r => map[r.conviventeId] = r);
+      setRefeicoes(map);
+    }).catch(err => console.error('Erro ao buscar refeições:', err));
   }, [dataSelecionada, token]);
 
-  const handleToggle = async (conviventeId: string, tipo: 'cafe' | 'almoco' | 'jantar') => {
-    const refeicaoExistente = refeicoes[conviventeId] || {
+  const handleToggle = useCallback(async (conviventeId: string, tipo: 'cafe' | 'almoco' | 'jantar') => {
+    const existente = refeicoes[conviventeId] || {
       conviventeId,
       data: dataSelecionada,
       cafe: false,
       almoco: false,
-      jantar: false,
+      jantar: false
     };
-
-    const atualizado = {
-      ...refeicaoExistente,
-      [tipo]: !refeicaoExistente[tipo],
-    };
-
+    const updated = { ...existente, [tipo]: !existente[tipo] };
     try {
-      await axios.post('http://localhost:5000/api/refeicoes', atualizado, {
-        headers: { Authorization: `Bearer ${token}` },
+      await axios.post('http://localhost:5000/api/refeicoes', updated, {
+        headers: { Authorization: `Bearer ${token}` }
       });
-      setRefeicoes((prev) => ({
-        ...prev,
-        [conviventeId]: atualizado,
-      }));
+      setRefeicoes(prev => ({ ...prev, [conviventeId]: updated }));
     } catch (error) {
       console.error('Erro ao atualizar refeição:', error);
     }
-  };
+  }, [refeicoes, dataSelecionada, token]);
 
-  const conviventesFiltrados = conviventes.filter((c) =>
-    c.nome.toLowerCase().includes(busca.toLowerCase())
+  const conviventesFiltrados = useMemo(() => 
+    conviventes.filter(c => c.nome.toLowerCase().includes(busca.toLowerCase())),
+    [conviventes, busca]
   );
 
   return (
     <div className="p-4 sm:p-6">
       <h2 className="text-xl sm:text-2xl font-bold mb-4">Controle de Refeições</h2>
-
-      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-2 mb-4">
+      <div className="flex flex-col sm:flex-row gap-2 mb-4">
         <input
           type="date"
           value={dataSelecionada}
-          onChange={(e) => setDataSelecionada(e.target.value)}
+          onChange={e => setDataSelecionada(e.target.value)}
           className="border p-2 rounded w-full sm:w-auto"
         />
         <input
           type="text"
           placeholder="Buscar convivente"
           value={busca}
-          onChange={(e) => setBusca(e.target.value)}
+          onChange={e => setBusca(e.target.value)}
           className="border p-2 rounded w-full sm:w-64"
         />
       </div>
-
       <div className="overflow-x-auto">
         <table className="min-w-[600px] w-full border-collapse">
           <thead>
@@ -119,7 +93,7 @@ const RefeicoesPage: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {conviventesFiltrados.map((c) => {
+            {conviventesFiltrados.map(c => {
               const r = refeicoes[c._id] || {};
               return (
                 <tr key={c._id} className="hover:bg-gray-50 text-sm text-center">
@@ -129,21 +103,21 @@ const RefeicoesPage: React.FC = () => {
                   <td className="border p-2">
                     <input
                       type="checkbox"
-                      checked={r.cafe || false}
+                      checked={r.cafe ?? false}
                       onChange={() => handleToggle(c._id, 'cafe')}
                     />
                   </td>
                   <td className="border p-2">
                     <input
                       type="checkbox"
-                      checked={r.almoco || false}
+                      checked={r.almoco ?? false}
                       onChange={() => handleToggle(c._id, 'almoco')}
                     />
                   </td>
                   <td className="border p-2">
                     <input
                       type="checkbox"
-                      checked={r.jantar || false}
+                      checked={r.jantar ?? false}
                       onChange={() => handleToggle(c._id, 'jantar')}
                     />
                   </td>

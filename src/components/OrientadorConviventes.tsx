@@ -1,8 +1,18 @@
 import React from 'react';
 
-const OrientadorConviventes = ({ cadastros }) => {
-  const list = Array.isArray(cadastros) ? cadastros : [];
-  const sorted = list.sort((a, b) => a.leito - b.leito);
+type Cadastro = {
+  _id?: string;
+  leito: number;
+  photoUrl?: string;
+  nome: string;
+};
+
+interface OrientadorConviventesProps {
+  cadastros?: Cadastro[];
+}
+
+const OrientadorConviventes: React.FC<OrientadorConviventesProps> = ({ cadastros = [] }) => {
+  const sorted = cadastros.sort((a, b) => a.leito - b.leito);
 
   return (
     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -29,8 +39,9 @@ const OrientadorConviventes = ({ cadastros }) => {
                     borderRadius: '50%',
                   }}
                   onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/default-avatar.png';
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = '/default-avatar.png';
                   }}
                 />
               ) : (
@@ -46,5 +57,3 @@ const OrientadorConviventes = ({ cadastros }) => {
 };
 
 export default OrientadorConviventes;
-
-

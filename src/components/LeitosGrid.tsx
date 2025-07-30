@@ -1,10 +1,14 @@
-// src/components/LeitosGrid.jsx
+// src/components/LeitosGrid.tsx
 import React from 'react';
 import './LeitosGrid.css';
 
 const TOTAL_LEITOS = 158;
 
-const LeitosGrid = ({ occupiedLeitos }) => {
+interface LeitosGridProps {
+  occupiedLeitos: number[];
+}
+
+const LeitosGrid: React.FC<LeitosGridProps> = ({ occupiedLeitos }) => {
   const cells = Array.from({ length: TOTAL_LEITOS }, (_, i) => {
     const num = i + 1;
     const occupied = occupiedLeitos.includes(num);

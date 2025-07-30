@@ -1,41 +1,27 @@
-// frontend/src/App.tsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
-import AdminPage from './pages/AdminPage';
 import AssistentePage from './pages/AssistentePage';
-import OrientadorPage from './pages/OrientadorPage'; // Já está importado
+import OrientadorPage from './pages/OrientadorPage';
 import { AuthProvider } from './context/AuthContext';
-import PrivateRoute from './components/PrivateRoute';
-import OcorrenciasPage from './pages/OcorrenciaPage';
+import ProtectedLayout from './components/ProtectedLayout';
+import ConviventesPage from './pages/ConviventePage';
 
-const App = () => {
+const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route
-            path="/admin"
-            element={<PrivateRoute element={<AdminPage />} role="ADMIN" />} // Role em maiúsculas
-          />
-          <Route
-            path="/assistente"
-            element={<PrivateRoute element={<AssistentePage />} role="ASSISTENTE" />} // Role em maiúsculas
-          />
-          <Route
-            path="/orientador"
-            element={<PrivateRoute element={<OrientadorPage />} role="ORIENTADOR" />} // Role em maiúsculas
-          />
-
-          <Route
-            path="/ocorrencias"
-            element={<PrivateRoute element={<OcorrenciasPage />} role="ORIENTADOR" />} // Role em maiúsculas
-          />
-
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<ProtectedLayout />}>
+            <Route path="assistente" element={<AssistentePage />} />
+            <Route path="orientador" element={<OrientadorPage />} />
+            <Route path="conviventes" element={<ConviventesPage />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 };
 
