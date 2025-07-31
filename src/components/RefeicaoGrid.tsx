@@ -58,7 +58,7 @@ const RefeicaoGrid: React.FC<RefeicaoGridProps> = ({
     fetchParticipacoes();
   };
 
-  const leitos = Array.from({ length: 20 }, (_, i) => i + 1);
+  const leitos = Array.from({ length: 158 }, (_, i) => i + 1);
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p style={{ color: 'red' }}>{error}</p>;

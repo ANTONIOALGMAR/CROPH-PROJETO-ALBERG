@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 interface UserData {
   id: string;
@@ -42,6 +43,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [usuario, setUsuario] = useState<UserData | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // configura axios para anexar header Authorization em todas as requisições
@@ -71,6 +73,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           localStorage.removeItem('user');
           setUsuario(null);
           setToken(null);
+          navigate('/login');
         } else {
           setUsuario(JSON.parse(storedUser));
           setToken(storedToken);

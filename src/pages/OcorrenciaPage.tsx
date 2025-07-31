@@ -9,7 +9,7 @@ const OcorrenciasPage = () => {
 
   const fetchOcorrencias = useCallback(async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/ocorrencias', {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/ocorrencias`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setOcorrencias(res.data);
@@ -17,6 +17,8 @@ const OcorrenciasPage = () => {
       console.error('Erro ao buscar ocorrências:', error);
     }
   }, [token]);
+
+  console.log('API URL do .env:', process.env.REACT_APP_API_URL);
 
   useEffect(() => {
     fetchOcorrencias();
@@ -28,7 +30,7 @@ const OcorrenciasPage = () => {
 
     try {
       await axios.post(
-        'http://localhost:5000/api/ocorrencias',
+        `${process.env.REACT_APP_API_URL}/api/ocorrencias`,
         { descricao },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -1,5 +1,6 @@
 // src/pages/AssistentePage.tsx
 import React, { useState, useEffect, useCallback } from 'react';
+import './AssistentePage.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import PresencaGrid from '../components/PresencaGrid';
