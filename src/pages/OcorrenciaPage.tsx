@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 
 const OcorrenciasPage = () => {
   const { token } = useAuth();
+  const [titulo, setTitulo] = useState('');
   const [descricao, setDescricao] = useState('');
   const [ocorrencias, setOcorrencias] = useState([]);
 
@@ -26,14 +27,15 @@ const OcorrenciasPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!descricao.trim()) return;
+    if (!titulo.trim() || !descricao.trim()) return;
 
     try {
       await axios.post(
         `${process.env.REACT_APP_API_URL}/api/ocorrencias`,
-        { descricao },
+        { titulo, descricao },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      setTitulo('');
       setDescricao('');
       fetchOcorrencias();
     } catch (error) {
@@ -46,6 +48,13 @@ const OcorrenciasPage = () => {
       <h2 className="text-xl font-bold mb-4">Relatos de Ocorrência</h2>
 
       <form onSubmit={handleSubmit} className="mb-6">
+        <input
+          type="text"
+          className="w-full p-2 border rounded mb-2"
+          placeholder="Título da ocorrência..."
+          value={titulo}
+          onChange={(e) => setTitulo(e.target.value)}
+        />
         <textarea
           className="w-full p-2 border rounded"
           rows={3}
@@ -65,9 +74,10 @@ const OcorrenciasPage = () => {
         {ocorrencias.map((oc) => (
           <div key={oc.id} className="border p-3 rounded bg-gray-50">
             <p className="text-sm text-gray-600">
-              <strong>{oc.autor?.nome}</strong> —{' '}
+              <strong>{oc.autor?.email}</strong> —{' '}
               {new Date(oc.data).toLocaleString()}
             </p>
+            <h3 className="text-lg font-semibold mt-1">{oc.titulo}</h3>
             <p className="mt-1">{oc.descricao}</p>
           </div>
         ))}
