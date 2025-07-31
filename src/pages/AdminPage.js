@@ -83,25 +83,6 @@ const AdminPage = () => {
     [jwtToken, conviventes, BASE_BACKEND_URL]
   );
 
-  if (loading || !jwtToken) {
-    return (
-      <div className="text-center mt-12">
-        <p>Carregando...</p>
-      </div>
-    );
-  }
-
-  if (!usuario || usuario.role !== 'ADMIN') {
-    return (
-      <div className="text-center mt-12 text-red-500">
-        <p>Acesso negado. Você não tem permissão para acessar esta página.</p>
-        <button onClick={() => navigate('/login')} className="bg-blue-500 text-white px-4 py-2 rounded mt-4">
-          Login
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div className="bg-blue-100 min-h-screen p-8">
       <div className="max-w-7xl mx-auto">

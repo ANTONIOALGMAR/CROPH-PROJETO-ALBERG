@@ -8,6 +8,8 @@ import LeitoMapaGrid from '../components/LeitoMapaGrid';
 import { format } from 'date-fns';
 import { Convivente } from '../types/Convivente';
 import OcorrenciaPage from './OcorrenciaPage';
+import ConviventeForm from '../components/conviventeForm';
+import ConviventesLista from '../components/ConviventesLista';
 
 const AssistentePage = (): React.JSX.Element => {
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ const AssistentePage = (): React.JSX.Element => {
   const [conviventes, setConviventes] = useState<Convivente[]>([]);
   const [selectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
   const [error, setError] = useState<string | null>(null);
-  const [mainTab, setMainTab] = useState<'presenca' | 'mapa' | 'ocorrencias'>('presenca');
+  const [mainTab, setMainTab] = useState<'presenca' | 'mapa' | 'ocorrencias' | 'cadastroConvivente' | 'listaConviventes'>('presenca');
 
   const BASE_BACKEND_URL = process.env.REACT_APP_API_URL;
 
@@ -73,6 +75,37 @@ const AssistentePage = (): React.JSX.Element => {
     [jwtToken, conviventes, BASE_BACKEND_URL]
   );
 
+  const handleConviventeSubmit = async (formData: any) => {
+    if (!jwtToken) return;
+    const data = new FormData();
+    for (const key in formData) {
+      if (key === 'photo' && formData[key]) {
+        data.append(key, formData[key]);
+      } else if (key !== 'preview') {
+        data.append(key, formData[key]);
+      }
+    }
+
+    try {
+      const res = await fetch(`${BASE_BACKEND_URL}/api/conviventes`,
+        {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${jwtToken}` },
+          body: data,
+        }
+      );
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Erro ao cadastrar convivente.');
+      }
+      fetchConviventes(); // Recarrega a lista de conviventes
+      alert('Convivente cadastrado com sucesso!');
+    } catch (error: any) {
+      console.error('Erro ao cadastrar convivente:', error);
+      alert(`Erro ao cadastrar convivente: ${error.message}`);
+    }
+  };
+
   if (loading || !jwtToken) {
     return (
       <div className="text-center mt-12">
@@ -104,6 +137,8 @@ const AssistentePage = (): React.JSX.Element => {
           <button onClick={() => setMainTab('presenca')} className={`flex-1 text-center py-3 rounded-lg ${mainTab === 'presenca' ? 'bg-white shadow' : 'hover:bg-gray-300'} transition-colors`}>Presença</button>
           <button onClick={() => setMainTab('mapa')} className={`flex-1 text-center py-3 rounded-lg ${mainTab === 'mapa' ? 'bg-white shadow' : 'hover:bg-gray-300'} transition-colors`}>Mapa de Leitos</button>
           <button onClick={() => setMainTab('ocorrencias')} className={`flex-1 text-center py-3 rounded-lg ${mainTab === 'ocorrencias' ? 'bg-white shadow' : 'hover:bg-gray-300'} transition-colors`}>Ocorrências</button>
+          <button onClick={() => setMainTab('cadastroConvivente')} className={`flex-1 text-center py-3 rounded-lg ${mainTab === 'cadastroConvivente' ? 'bg-white shadow' : 'hover:bg-gray-300'} transition-colors`}>Cadastro de Conviventes</button>
+          <button onClick={() => setMainTab('listaConviventes')} className={`flex-1 text-center py-3 rounded-lg ${mainTab === 'listaConviventes' ? 'bg-white shadow' : 'hover:bg-gray-300'} transition-colors`}>Lista de Conviventes</button>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-md">
@@ -124,6 +159,14 @@ const AssistentePage = (): React.JSX.Element => {
           )}
 
           {mainTab === 'ocorrencias' && <OcorrenciaPage />}
+
+          {mainTab === 'cadastroConvivente' && (
+            <ConviventeForm onSubmit={handleConviventeSubmit} />
+          )}
+
+          {mainTab === 'listaConviventes' && (
+            <ConviventesLista conviventes={conviventes} />
+          )}
         </div>
       </div>
     </div>
