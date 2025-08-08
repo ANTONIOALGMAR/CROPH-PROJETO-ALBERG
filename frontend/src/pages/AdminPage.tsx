@@ -119,7 +119,7 @@ const AdminPage = () => {
       method = 'PUT';
     } else {
       // Criação de novo usuário (usando a rota de registro)
-      url = `${BASE_BACKEND_URL}/api/auth/register`;
+      url = `https://croph-alberg-api.onrender.com/api/auth/register`;
       method = 'POST';
     }
 
