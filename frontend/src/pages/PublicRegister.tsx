@@ -9,7 +9,7 @@ const PublicRegister: React.FC = () => {
 
   const handleSubmit = async (values: UserRegistrationFormData, actions: FormikHelpers<UserRegistrationFormData>) => {
     try {
-      const response = await fetch(`${BASE_BACKEND_URL}/api/register`, {
+            const response = await fetch(`${BASE_BACKEND_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
