@@ -31,39 +31,4 @@ router.put('/:id', authController.updateUser);
 // Rota para deletar um usuário -> DELETE /api/users/:id
 router.delete('/:id', authController.deleteUser);
 
-// Rota para criar o primeiro usuário administrador
-router.post('/setup-admin', async (req, res) => {
-  const { secret, email, password, nome } = req.body;
-  const bcrypt = require('bcryptjs');
-  const { Role } = require('@prisma/client');
-
-  // Protegemos a rota com um segredo simples
-  if (secret !== 'MEU_SEGREDO_DE_SETUP_12345') {
-    return res.status(403).json({ message: 'Segredo inválido.' });
-  }
-
-  try {
-    const userCount = await prisma.user.count();
-    if (userCount > 0) {
-      return res.status(400).json({ message: 'O usuário administrador já existe.' });
-    }
-
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const adminUser = await prisma.user.create({
-      data: {
-        email,
-        passwordHash,
-        nome,
-        role: Role.ADMIN,
-      },
-    });
-
-    res.status(201).json({ message: 'Usuário administrador criado com sucesso!', userId: adminUser.id });
-  } catch (error) {
-    console.error('Erro ao criar usuário administrador:', error);
-    res.status(500).json({ message: 'Erro interno do servidor.' });
-  }
-});
-
 module.exports = router;
