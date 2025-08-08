@@ -110,12 +110,20 @@ const AdminPage = () => {
   );
 
   const handleSubmitUser = async (values: UserRegistrationFormData, actions: FormikHelpers<UserRegistrationFormData>) => {
-                        const url = (editingUser && 'id' in editingUser && editingUser.id)
-      ? `${BASE_BACKEND_URL}/api/users/${(editingUser as Usuario).id}`
-      : `${BASE_BACKEND_URL}/api/users`;
+    let url: string;
+    let method: 'POST' | 'PUT';
+
+    if (editingUser && 'id' in editingUser && editingUser.id) {
+      // Edição de usuário existente
+      url = `${BASE_BACKEND_URL}/api/users/${(editingUser as Usuario).id}`;
+      method = 'PUT';
+    } else {
+      // Criação de novo usuário (usando a rota de registro)
+      url = `${BASE_BACKEND_URL}/api/auth/register`;
+      method = 'POST';
+    }
 
     try {
-      const method = (editingUser && 'id' in editingUser && editingUser.id) ? 'PUT' : 'POST';
       await fetchData(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -123,8 +131,8 @@ const AdminPage = () => {
       });
       actions.setSubmitting(false);
       setEditingUser(null);
-      fetchUsers();
-      setMainTab('listaUsuarios');
+      fetchUsers(); // Recarrega a lista de usuários
+      setMainTab('listaUsuarios'); // Volta para a lista de usuários
     } catch (error: any) {
       actions.setSubmitting(false);
       actions.setStatus({ error: error.message });
