@@ -1,0 +1,22 @@
+.leitos-grid {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr); /* 14 colunas, ajustável */
+  gap: 4px;
+  margin-top: 1em;
+}
+
+.leito-cell {
+  padding: 8px;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.leito-cell.free {
+  background: #fff; /* leitos livres */
+}
+
+.leito-cell.occupied {
+  background: #ffeb3b; /* amarelo para ocupados */
+}

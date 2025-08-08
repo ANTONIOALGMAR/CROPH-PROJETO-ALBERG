@@ -1,0 +1,10 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(14,1fr);
+  gap:4px;
+}
+.cell {
+  padding:6px; text-align:center; border:1px solid #ccc;
+}
+.cell.done { background: #c8e6c9; }
+.cell.miss { background: #ffcdd2; }

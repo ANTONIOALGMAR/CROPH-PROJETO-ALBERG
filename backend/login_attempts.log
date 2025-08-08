@@ -1,0 +1,598 @@
+2025-08-02T09:19:45.206Z - 
+[LOGIN ATTEMPT]
+2025-08-02T09:19:45.206Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-02T09:19:45.344Z - Resultado: Falha - Usuário com email 'orientador@example.com' não encontrado no banco de dados.
+2025-08-02T09:24:53.631Z - 
+[LOGIN ATTEMPT]
+2025-08-02T09:24:53.632Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-02T09:24:53.694Z - Resultado: Falha - Usuário com email 'orientador@example.com' não encontrado no banco de dados.
+2025-08-02T09:25:22.118Z - 
+[LOGIN ATTEMPT]
+2025-08-02T09:25:22.119Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-02T09:25:22.138Z - Resultado: Falha - Usuário com email 'orientador@example.com' não encontrado no banco de dados.
+2025-08-02T09:34:42.108Z - 
+[LOGIN ATTEMPT]
+2025-08-02T09:34:42.112Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-02T09:34:42.144Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-02T09:34:42.246Z - Resultado: Sucesso - Senha válida.
+2025-08-02T09:35:27.262Z - 
+[LOGIN ATTEMPT]
+2025-08-02T09:35:27.262Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-02T09:35:27.267Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-02T09:35:27.347Z - Resultado: Sucesso - Senha válida.
+2025-08-02T10:04:04.274Z - 
+[LOGIN ATTEMPT]
+2025-08-02T10:04:04.275Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-02T10:04:04.342Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-02T10:04:04.423Z - Resultado: Sucesso - Senha válida.
+2025-08-02T10:22:26.511Z - 
+[LOGIN ATTEMPT]
+2025-08-02T10:22:26.512Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-02T10:22:26.530Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-02T10:22:26.609Z - Resultado: Sucesso - Senha válida.
+2025-08-02T10:33:21.664Z - 
+[LOGIN ATTEMPT]
+2025-08-02T10:33:21.665Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-02T10:33:21.672Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-02T10:33:21.752Z - Resultado: Sucesso - Senha válida.
+2025-08-02T10:37:06.223Z - 
+[LOGIN ATTEMPT]
+2025-08-02T10:37:06.224Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-02T10:37:06.229Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-02T10:37:06.306Z - Resultado: Sucesso - Senha válida.
+2025-08-02T10:47:33.784Z - 
+[LOGIN ATTEMPT]
+2025-08-02T10:47:33.785Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-02T10:47:33.805Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-02T10:47:33.883Z - Resultado: Sucesso - Senha válida.
+2025-08-02T10:50:14.760Z - 
+[LOGIN ATTEMPT]
+2025-08-02T10:50:14.761Z - Recebido no req.body: {"email":"assistente@example.com","password":"assistente123"}
+2025-08-02T10:50:14.765Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-02T10:50:14.851Z - Resultado: Sucesso - Senha válida.
+2025-08-02T15:09:54.272Z - 
+[LOGIN ATTEMPT]
+2025-08-02T15:09:54.272Z - Recebido no req.body: {"email":"assistente@example.com","password":"assistente123"}
+2025-08-02T15:09:54.402Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-02T15:09:54.481Z - Resultado: Sucesso - Senha válida.
+2025-08-02T16:14:21.902Z - 
+[LOGIN ATTEMPT]
+2025-08-02T16:14:21.903Z - Recebido no req.body: {"email":"assistente@example.com","password":"assistente123"}
+2025-08-02T16:14:21.971Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-02T16:14:22.060Z - Resultado: Sucesso - Senha válida.
+2025-08-02T17:34:42.424Z - 
+[LOGIN ATTEMPT]
+2025-08-02T17:34:42.426Z - Recebido no req.body: {"email":"assistente@example.com","password":"assistente123"}
+2025-08-02T17:34:42.495Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-02T17:34:42.725Z - Resultado: Sucesso - Senha válida.
+2025-08-03T02:40:07.726Z - 
+[LOGIN ATTEMPT]
+2025-08-03T02:40:07.727Z - Recebido no req.body: {"email":"assistente@example.com","password":"assistente123"}
+2025-08-03T02:40:07.904Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-03T02:40:07.998Z - Resultado: Sucesso - Senha válida.
+2025-08-03T03:42:32.097Z - 
+[LOGIN ATTEMPT]
+2025-08-03T03:42:32.106Z - Recebido no req.body: {"email":"assistente@example.com","password":"assistente123"}
+2025-08-03T03:42:32.211Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-03T03:42:32.297Z - Resultado: Sucesso - Senha válida.
+2025-08-03T04:50:47.473Z - 
+[LOGIN ATTEMPT]
+2025-08-03T04:50:47.475Z - Recebido no req.body: {"email":"assistente@example.com","password":"assiteste123"}
+2025-08-03T04:50:47.570Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-03T04:50:47.656Z - Resultado: Falha - A comparação de senha (bcrypt.compare) retornou falso.
+2025-08-03T04:51:02.106Z - 
+[LOGIN ATTEMPT]
+2025-08-03T04:51:02.119Z - Recebido no req.body: {"email":"assistente@example.com","password":"assistente123"}
+2025-08-03T04:51:02.128Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-03T04:51:02.232Z - Resultado: Sucesso - Senha válida.
+2025-08-03T06:02:59.935Z - 
+[LOGIN ATTEMPT]
+2025-08-03T06:02:59.936Z - Recebido no req.body: undefined
+2025-08-03T06:03:12.946Z - 
+[LOGIN ATTEMPT]
+2025-08-03T06:03:12.947Z - Recebido no req.body: undefined
+2025-08-03T06:09:45.817Z - 
+[LOGIN ATTEMPT]
+2025-08-03T06:09:45.818Z - Recebido no req.body: {"email":"assistente@example.com","password":"assistente123"}
+2025-08-03T06:09:45.922Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-03T06:09:46.005Z - Resultado: Sucesso - Senha válida.
+2025-08-03T06:12:54.299Z - 
+[LOGIN ATTEMPT]
+2025-08-03T06:12:54.300Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientdor123"}
+2025-08-03T06:12:54.321Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-03T06:12:54.426Z - Resultado: Falha - A comparação de senha (bcrypt.compare) retornou falso.
+2025-08-03T06:13:04.491Z - 
+[LOGIN ATTEMPT]
+2025-08-03T06:13:04.491Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-03T06:13:04.502Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-03T06:13:04.602Z - Resultado: Sucesso - Senha válida.
+2025-08-03T06:16:05.369Z - 
+[LOGIN ATTEMPT]
+2025-08-03T06:16:05.370Z - Recebido no req.body: {"email":"assistente@example.com","password":"assistente123"}
+2025-08-03T06:16:05.403Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-03T06:16:05.487Z - Resultado: Sucesso - Senha válida.
+2025-08-03T06:31:12.463Z - 
+[LOGIN ATTEMPT]
+2025-08-03T06:31:12.465Z - Recebido no req.body: {"email":"assistente@example.com","password":"assistente123"}
+2025-08-03T06:31:12.513Z - Usuário 'assistente@example.com' encontrado. Comparando senhas...
+2025-08-03T06:31:12.595Z - Resultado: Sucesso - Senha válida.
+2025-08-03T07:28:56.779Z - 
+[LOGIN ATTEMPT]
+2025-08-03T07:28:56.781Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-03T07:28:56.798Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-03T07:28:56.880Z - Resultado: Sucesso - Senha válida.
+2025-08-03T23:15:05.412Z - 
+[LOGIN ATTEMPT]
+2025-08-03T23:15:05.420Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-03T23:15:05.831Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-03T23:15:05.930Z - Resultado: Sucesso - Senha válida.
+2025-08-03T23:17:49.290Z - 
+[LOGIN ATTEMPT]
+2025-08-03T23:17:49.293Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-03T23:17:49.298Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-03T23:17:49.382Z - Resultado: Sucesso - Senha válida.
+2025-08-04T00:20:55.450Z - 
+[LOGIN ATTEMPT]
+2025-08-04T00:20:55.452Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T00:20:55.583Z - [ERRO NO LOGIN]PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+/Users/antonio/Desktop/croph-projeto-alberg/backend/controllers/authController.js:84:36
+
+  81 }
+  82 
+  83 try {
+→ 84   const user = await prisma.user.findUnique(
+Error converting field "passwordHash" of expected non-nullable type "String", found incompatible value of "null".
+2025-08-04T00:21:18.855Z - 
+[LOGIN ATTEMPT]
+2025-08-04T00:21:18.856Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T00:21:18.949Z - [ERRO NO LOGIN]PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+/Users/antonio/Desktop/croph-projeto-alberg/backend/controllers/authController.js:84:36
+
+  81 }
+  82 
+  83 try {
+→ 84   const user = await prisma.user.findUnique(
+Error converting field "passwordHash" of expected non-nullable type "String", found incompatible value of "null".
+2025-08-04T00:24:13.595Z - 
+[LOGIN ATTEMPT]
+2025-08-04T00:24:13.596Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T00:24:13.648Z - [ERRO NO LOGIN]PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+/Users/antonio/Desktop/croph-projeto-alberg/backend/controllers/authController.js:84:36
+
+  81 }
+  82 
+  83 try {
+→ 84   const user = await prisma.user.findUnique(
+Error converting field "passwordHash" of expected non-nullable type "String", found incompatible value of "null".
+2025-08-04T00:26:48.754Z - 
+[LOGIN ATTEMPT]
+2025-08-04T00:26:48.755Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T00:26:48.787Z - [ERRO NO LOGIN]PrismaClientKnownRequestError: 
+Invalid `prisma.user.findUnique()` invocation in
+/Users/antonio/Desktop/croph-projeto-alberg/backend/controllers/authController.js:84:36
+
+  81 }
+  82 
+  83 try {
+→ 84   const user = await prisma.user.findUnique(
+Error converting field "passwordHash" of expected non-nullable type "String", found incompatible value of "null".
+2025-08-04T00:29:04.458Z - 
+[LOGIN ATTEMPT]
+2025-08-04T00:29:04.459Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T02:37:36.176Z - 
+[LOGIN ATTEMPT]
+2025-08-04T02:37:36.178Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-04T02:44:54.269Z - 
+[LOGIN ATTEMPT]
+2025-08-04T02:44:54.270Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-04T02:50:59.696Z - 
+[LOGIN ATTEMPT]
+2025-08-04T02:50:59.697Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-04T02:55:24.210Z - 
+[LOGIN ATTEMPT]
+2025-08-04T02:55:24.211Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-04T03:01:26.615Z - 
+[LOGIN ATTEMPT]
+2025-08-04T03:01:26.615Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-04T03:37:11.199Z - 
+[LOGIN ATTEMPT]
+2025-08-04T03:37:11.200Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-04T03:42:47.850Z - 
+[LOGIN ATTEMPT]
+2025-08-04T03:42:47.851Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-04T03:42:47.918Z - Resultado: Falha - Usuário com email 'orientador@example.com' não encontrado no banco de dados.
+2025-08-04T03:43:04.340Z - 
+[LOGIN ATTEMPT]
+2025-08-04T03:43:04.340Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-04T03:43:04.346Z - Resultado: Falha - Usuário com email 'orientador@example.com' não encontrado no banco de dados.
+2025-08-04T03:44:42.721Z - 
+[LOGIN ATTEMPT]
+2025-08-04T03:44:42.721Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-04T03:44:42.748Z - Resultado: Falha - Usuário com email 'orientador@example.com' não encontrado no banco de dados.
+2025-08-04T03:47:18.522Z - 
+[LOGIN ATTEMPT]
+2025-08-04T03:47:18.525Z - Recebido no req.body: {"email":"teste@example.com","password":"teste123"}
+2025-08-04T03:47:18.544Z - Resultado: Falha - Usuário com email 'teste@example.com' não encontrado no banco de dados.
+2025-08-04T04:29:25.096Z - 
+[LOGIN ATTEMPT]
+2025-08-04T04:29:25.097Z - Recebido no req.body: {"email":"seu.email@example.com","password":"sua_senha_forte"}
+2025-08-04T04:29:25.175Z - Usuário 'seu.email@example.com' encontrado. Comparando senhas...
+2025-08-04T04:29:25.271Z - Resultado: Sucesso - Senha válida.
+2025-08-04T04:40:01.906Z - 
+[LOGIN ATTEMPT]
+2025-08-04T04:40:01.907Z - Recebido no req.body: {"email":"seu.email@example.com","password":"sua_senha_forte"}
+2025-08-04T04:40:02.000Z - Usuário 'seu.email@example.com' encontrado. Comparando senhas...
+2025-08-04T04:40:02.082Z - Resultado: Sucesso - Senha válida.
+2025-08-04T05:06:33.743Z - 
+[LOGIN ATTEMPT]
+2025-08-04T05:06:33.745Z - Recebido no req.body: {"email":"seu.email@example.com","password":"sua_senha_forte"}
+2025-08-04T05:06:33.853Z - Usuário 'seu.email@example.com' encontrado. Comparando senhas...
+2025-08-04T05:06:33.942Z - Resultado: Sucesso - Senha válida.
+2025-08-04T05:36:51.998Z - 
+[LOGIN ATTEMPT]
+2025-08-04T05:36:52.000Z - Recebido no req.body: {"email":"antonio@orientador.com","password":"212167"}
+2025-08-04T05:36:52.007Z - Resultado: Falha - Usuário com email 'antonio@orientador.com' não encontrado no banco de dados.
+2025-08-04T05:39:57.988Z - 
+[LOGIN ATTEMPT]
+2025-08-04T05:39:57.989Z - Recebido no req.body: {"email":"antonio@orientador.com","password":"212167"}
+2025-08-04T05:39:58.306Z - Resultado: Falha - Usuário com email 'antonio@orientador.com' não encontrado no banco de dados.
+2025-08-04T05:40:28.926Z - 
+[LOGIN ATTEMPT]
+2025-08-04T05:40:28.926Z - Recebido no req.body: {"email":"antonio@orientador.com","password":"212167"}
+2025-08-04T05:40:28.932Z - Resultado: Falha - Usuário com email 'antonio@orientador.com' não encontrado no banco de dados.
+2025-08-04T05:41:22.176Z - 
+[LOGIN ATTEMPT]
+2025-08-04T05:41:22.176Z - Recebido no req.body: {"email":"seu.email@example.com","password":"sua_senha_forte"}
+2025-08-04T05:41:22.195Z - Usuário 'seu.email@example.com' encontrado. Comparando senhas...
+2025-08-04T05:41:22.305Z - Resultado: Sucesso - Senha válida.
+2025-08-04T07:03:33.750Z - 
+[LOGIN ATTEMPT]
+2025-08-04T07:03:33.751Z - Recebido no req.body: {"email":"seu.email@example.com","password":"sua_senha_forte"}
+2025-08-04T07:03:33.909Z - Usuário 'seu.email@example.com' encontrado. Comparando senhas...
+2025-08-04T07:03:33.993Z - Resultado: Sucesso - Senha válida.
+2025-08-04T07:13:49.743Z - 
+[LOGIN ATTEMPT]
+2025-08-04T07:13:49.744Z - Recebido no req.body: {"email":"seu.email@example.com","password":"sua_senha_forte"}
+2025-08-04T07:13:49.771Z - Usuário 'seu.email@example.com' encontrado. Comparando senhas...
+2025-08-04T07:13:49.849Z - Resultado: Sucesso - Senha válida.
+2025-08-04T07:22:03.028Z - 
+[LOGIN ATTEMPT]
+2025-08-04T07:22:03.029Z - Recebido no req.body: {"email":"seu.email@example.com","password":"sua_senha_forte"}
+2025-08-04T07:22:03.098Z - Usuário 'seu.email@example.com' encontrado. Comparando senhas...
+2025-08-04T07:22:03.180Z - Resultado: Sucesso - Senha válida.
+2025-08-04T07:35:27.094Z - 
+[LOGIN ATTEMPT]
+2025-08-04T07:35:27.095Z - Recebido no req.body: {"email":"admin@example.com","password":"sua_senha_forte"}
+2025-08-04T07:35:27.155Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T07:35:27.233Z - Resultado: Sucesso - Senha válida.
+2025-08-04T07:43:31.114Z - 
+[LOGIN ATTEMPT]
+2025-08-04T07:43:31.115Z - Recebido no req.body: {"email":"admin@example.com","password":"sua_senha_forte"}
+2025-08-04T07:43:31.142Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T07:43:31.226Z - Resultado: Sucesso - Senha válida.
+2025-08-04T07:45:16.857Z - 
+[LOGIN ATTEMPT]
+2025-08-04T07:45:16.857Z - Recebido no req.body: {"email":"antonio@prates1.com","password":"123456"}
+2025-08-04T07:45:16.875Z - Usuário 'antonio@prates1.com' encontrado. Comparando senhas...
+2025-08-04T07:45:16.953Z - Resultado: Falha - A comparação de senha (bcrypt.compare) retornou falso.
+2025-08-04T07:45:46.473Z - 
+[LOGIN ATTEMPT]
+2025-08-04T07:45:46.476Z - Recebido no req.body: {"email":"antonio@prates1.com","password":"123456"}
+2025-08-04T07:45:46.480Z - Usuário 'antonio@prates1.com' encontrado. Comparando senhas...
+2025-08-04T07:45:46.575Z - Resultado: Falha - A comparação de senha (bcrypt.compare) retornou falso.
+2025-08-04T07:46:21.411Z - 
+[LOGIN ATTEMPT]
+2025-08-04T07:46:21.411Z - Recebido no req.body: {"email":"admin@example.com","password":"sua_senha_forte"}
+2025-08-04T07:46:21.418Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T07:46:21.507Z - Resultado: Sucesso - Senha válida.
+2025-08-04T08:26:08.426Z - 
+[LOGIN ATTEMPT]
+2025-08-04T08:26:08.428Z - Recebido no req.body: {"email":"admin@example.com","password":"sua_senha_forte"}
+2025-08-04T08:26:08.447Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T08:26:08.528Z - Resultado: Sucesso - Senha válida.
+2025-08-04T08:51:48.359Z - 
+[LOGIN ATTEMPT]
+2025-08-04T08:51:48.360Z - Recebido no req.body: {"email":"admin@example.com","password":"sua_senha_forte"}
+2025-08-04T08:51:48.420Z - Resultado: Falha - Usuário com email 'admin@example.com' não encontrado no banco de dados.
+2025-08-04T08:59:52.632Z - 
+[LOGIN ATTEMPT]
+2025-08-04T08:59:52.633Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T08:59:52.692Z - Resultado: Falha - Usuário com email 'admin@example.com' não encontrado no banco de dados.
+2025-08-04T09:17:55.964Z - 
+[LOGIN ATTEMPT]
+2025-08-04T09:17:55.966Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T09:17:56.026Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T09:17:56.105Z - Resultado: Sucesso - Senha válida.
+2025-08-04T09:29:31.438Z - 
+[LOGIN ATTEMPT]
+2025-08-04T09:29:31.440Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T09:29:31.455Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T09:29:31.533Z - Resultado: Sucesso - Senha válida.
+2025-08-04T09:34:44.789Z - 
+[LOGIN ATTEMPT]
+2025-08-04T09:34:44.790Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T09:34:44.814Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T09:34:44.893Z - Resultado: Sucesso - Senha válida.
+2025-08-04T09:49:16.101Z - 
+[LOGIN ATTEMPT]
+2025-08-04T09:49:16.101Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T09:49:16.121Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T09:49:16.198Z - Resultado: Sucesso - Senha válida.
+2025-08-04T12:45:56.877Z - 
+[LOGIN ATTEMPT]
+2025-08-04T12:45:56.878Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T12:45:57.078Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T12:45:57.160Z - Resultado: Sucesso - Senha válida.
+2025-08-04T13:05:27.622Z - 
+[LOGIN ATTEMPT]
+2025-08-04T13:05:27.623Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T13:05:27.641Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T13:05:27.718Z - Resultado: Sucesso - Senha válida.
+2025-08-04T13:18:12.644Z - 
+[LOGIN ATTEMPT]
+2025-08-04T13:18:12.645Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T13:18:12.684Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T13:18:12.762Z - Resultado: Sucesso - Senha válida.
+2025-08-04T23:11:16.342Z - 
+[LOGIN ATTEMPT]
+2025-08-04T23:11:16.343Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-04T23:11:16.488Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-04T23:11:16.574Z - Resultado: Sucesso - Senha válida.
+2025-08-05T00:12:18.435Z - 
+[LOGIN ATTEMPT]
+2025-08-05T00:12:18.436Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-05T00:12:18.520Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-05T00:12:18.619Z - Resultado: Sucesso - Senha válida.
+2025-08-05T01:26:08.463Z - 
+[LOGIN ATTEMPT]
+2025-08-05T01:26:08.464Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-05T01:26:08.541Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-05T01:26:08.662Z - Resultado: Sucesso - Senha válida.
+2025-08-05T02:06:14.527Z - 
+[LOGIN ATTEMPT]
+2025-08-05T02:06:14.529Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T02:06:14.533Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T02:06:14.616Z - Resultado: Sucesso - Senha válida.
+2025-08-05T04:23:07.227Z - 
+[LOGIN ATTEMPT]
+2025-08-05T04:23:07.229Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"JANAIANA"}
+2025-08-05T04:23:07.625Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T04:23:07.867Z - Resultado: Falha - A comparação de senha (bcrypt.compare) retornou falso.
+2025-08-05T04:23:16.693Z - 
+[LOGIN ATTEMPT]
+2025-08-05T04:23:16.694Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"JANAINA"}
+2025-08-05T04:23:16.713Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T04:23:16.821Z - Resultado: Falha - A comparação de senha (bcrypt.compare) retornou falso.
+2025-08-05T04:23:28.817Z - 
+[LOGIN ATTEMPT]
+2025-08-05T04:23:28.818Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T04:23:28.822Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T04:23:28.943Z - Resultado: Sucesso - Senha válida.
+2025-08-05T04:30:09.465Z - 
+[LOGIN ATTEMPT]
+2025-08-05T04:30:09.466Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T04:30:09.494Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T04:30:09.576Z - Resultado: Sucesso - Senha válida.
+2025-08-05T04:50:35.938Z - 
+[LOGIN ATTEMPT]
+2025-08-05T04:50:35.939Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-05T04:50:35.955Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-05T04:50:36.043Z - Resultado: Falha - A comparação de senha (bcrypt.compare) retornou falso.
+2025-08-05T04:50:47.691Z - 
+[LOGIN ATTEMPT]
+2025-08-05T04:50:47.691Z - Recebido no req.body: {"email":"orientador@example.com","password":"123456"}
+2025-08-05T04:50:47.699Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-05T04:50:47.811Z - Resultado: Falha - A comparação de senha (bcrypt.compare) retornou falso.
+2025-08-05T04:50:59.779Z - 
+[LOGIN ATTEMPT]
+2025-08-05T04:50:59.780Z - Recebido no req.body: {"email":"orientador@example.com","password":"orientador123"}
+2025-08-05T04:50:59.788Z - Usuário 'orientador@example.com' encontrado. Comparando senhas...
+2025-08-05T04:50:59.907Z - Resultado: Falha - A comparação de senha (bcrypt.compare) retornou falso.
+2025-08-05T04:51:31.101Z - 
+[LOGIN ATTEMPT]
+2025-08-05T04:51:31.104Z - Recebido no req.body: {"email":"admin@example.com","password":"admin"}
+2025-08-05T04:51:31.115Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-05T04:51:31.227Z - Resultado: Falha - A comparação de senha (bcrypt.compare) retornou falso.
+2025-08-05T04:51:35.648Z - 
+[LOGIN ATTEMPT]
+2025-08-05T04:51:35.649Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-05T04:51:35.660Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-05T04:51:35.765Z - Resultado: Sucesso - Senha válida.
+2025-08-05T05:02:27.996Z - 
+[LOGIN ATTEMPT]
+2025-08-05T05:02:27.997Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-05T05:02:28.013Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-05T05:02:28.096Z - Resultado: Sucesso - Senha válida.
+2025-08-05T05:02:54.907Z - 
+[LOGIN ATTEMPT]
+2025-08-05T05:02:54.910Z - Recebido no req.body: {"email":"antonio@orientador.com","password":"antonio"}
+2025-08-05T05:02:54.926Z - Usuário 'antonio@orientador.com' encontrado. Comparando senhas...
+2025-08-05T05:02:55.034Z - Resultado: Sucesso - Senha válida.
+2025-08-05T05:03:47.143Z - 
+[LOGIN ATTEMPT]
+2025-08-05T05:03:47.146Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T05:03:47.150Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T05:03:47.246Z - Resultado: Sucesso - Senha válida.
+2025-08-05T06:35:33.067Z - 
+[LOGIN ATTEMPT]
+2025-08-05T06:35:33.068Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T06:35:33.115Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T06:35:33.216Z - Resultado: Sucesso - Senha válida.
+2025-08-05T12:37:30.782Z - 
+[LOGIN ATTEMPT]
+2025-08-05T12:37:30.783Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T12:37:30.956Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T12:37:31.040Z - Resultado: Sucesso - Senha válida.
+2025-08-05T13:00:15.254Z - 
+[LOGIN ATTEMPT]
+2025-08-05T13:00:15.255Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T13:00:15.408Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T13:00:15.491Z - Resultado: Sucesso - Senha válida.
+2025-08-05T20:10:27.269Z - 
+[LOGIN ATTEMPT]
+2025-08-05T20:10:27.270Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T20:10:27.469Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T20:10:27.547Z - Resultado: Sucesso - Senha válida.
+2025-08-05T20:50:12.314Z - 
+[LOGIN ATTEMPT]
+2025-08-05T20:50:12.316Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T20:50:12.330Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T20:50:12.409Z - Resultado: Sucesso - Senha válida.
+2025-08-05T21:16:38.748Z - 
+[LOGIN ATTEMPT]
+2025-08-05T21:16:38.749Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T21:16:38.767Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T21:16:38.847Z - Resultado: Sucesso - Senha válida.
+2025-08-05T21:19:32.982Z - 
+[LOGIN ATTEMPT]
+2025-08-05T21:19:32.983Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-05T21:19:32.986Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-05T21:19:33.066Z - Resultado: Sucesso - Senha válida.
+2025-08-06T02:33:59.075Z - 
+[LOGIN ATTEMPT]
+2025-08-06T02:33:59.077Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-06T02:33:59.268Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-06T02:33:59.351Z - Resultado: Sucesso - Senha válida.
+2025-08-06T08:08:46.715Z - 
+[LOGIN ATTEMPT]
+2025-08-06T08:08:46.717Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-06T08:08:46.915Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-06T08:08:46.996Z - Resultado: Sucesso - Senha válida.
+2025-08-06T08:54:44.674Z - 
+[LOGIN ATTEMPT]
+2025-08-06T08:54:44.676Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-06T08:54:44.684Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-06T08:54:44.763Z - Resultado: Sucesso - Senha válida.
+2025-08-06T10:00:53.453Z - 
+[LOGIN ATTEMPT]
+2025-08-06T10:00:53.455Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-06T10:00:53.469Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-06T10:00:53.548Z - Resultado: Sucesso - Senha válida.
+2025-08-06T12:34:49.834Z - 
+[LOGIN ATTEMPT]
+2025-08-06T12:34:49.836Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-06T12:34:50.023Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-06T12:34:50.104Z - Resultado: Sucesso - Senha válida.
+2025-08-06T13:06:37.461Z - 
+[LOGIN ATTEMPT]
+2025-08-06T13:06:37.462Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-06T13:06:37.631Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-06T13:06:37.718Z - Resultado: Sucesso - Senha válida.
+2025-08-06T13:38:35.416Z - 
+[LOGIN ATTEMPT]
+2025-08-06T13:38:35.418Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-06T13:38:35.435Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-06T13:38:35.514Z - Resultado: Sucesso - Senha válida.
+2025-08-06T13:45:22.891Z - 
+[LOGIN ATTEMPT]
+2025-08-06T13:45:22.892Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-06T13:45:22.895Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-06T13:45:22.976Z - Resultado: Sucesso - Senha válida.
+2025-08-06T13:50:37.326Z - 
+[LOGIN ATTEMPT]
+2025-08-06T13:50:37.326Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-06T13:50:37.350Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-06T13:50:37.431Z - Resultado: Sucesso - Senha válida.
+2025-08-06T13:55:26.908Z - 
+[LOGIN ATTEMPT]
+2025-08-06T13:55:26.910Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-06T13:55:26.918Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-06T13:55:26.996Z - Resultado: Sucesso - Senha válida.
+2025-08-06T14:29:05.280Z - 
+[LOGIN ATTEMPT]
+2025-08-06T14:29:05.290Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-06T14:29:05.295Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-06T14:29:05.375Z - Resultado: Sucesso - Senha válida.
+2025-08-06T15:29:14.687Z - 
+[LOGIN ATTEMPT]
+2025-08-06T15:29:14.688Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-06T15:29:14.708Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-06T15:29:14.791Z - Resultado: Sucesso - Senha válida.
+2025-08-06T17:19:00.896Z - 
+[LOGIN ATTEMPT]
+2025-08-06T17:19:00.898Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-06T17:19:00.960Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-06T17:19:01.040Z - Resultado: Sucesso - Senha válida.
+2025-08-07T02:05:49.173Z - 
+[LOGIN ATTEMPT]
+2025-08-07T02:05:49.175Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-07T02:05:49.401Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-07T02:05:49.486Z - Resultado: Sucesso - Senha válida.
+2025-08-07T02:10:23.056Z - 
+[LOGIN ATTEMPT]
+2025-08-07T02:10:23.057Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-07T02:10:23.062Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-07T02:10:23.152Z - Resultado: Sucesso - Senha válida.
+2025-08-07T03:08:46.488Z - 
+[LOGIN ATTEMPT]
+2025-08-07T03:08:46.489Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-07T03:08:46.511Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-07T03:08:46.592Z - Resultado: Sucesso - Senha válida.
+2025-08-07T06:00:31.768Z - 
+[LOGIN ATTEMPT]
+2025-08-07T06:00:31.769Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-07T06:00:32.005Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-07T06:00:32.094Z - Resultado: Sucesso - Senha válida.
+2025-08-07T06:43:34.758Z - 
+[LOGIN ATTEMPT]
+2025-08-07T06:43:34.759Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-07T06:43:34.855Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-07T06:43:34.957Z - Resultado: Sucesso - Senha válida.
+2025-08-07T07:12:52.122Z - 
+[LOGIN ATTEMPT]
+2025-08-07T07:12:52.124Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-07T07:12:52.533Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-07T07:12:52.612Z - Resultado: Sucesso - Senha válida.
+2025-08-07T08:23:11.081Z - 
+[LOGIN ATTEMPT]
+2025-08-07T08:23:11.083Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-07T08:23:11.177Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-07T08:23:11.256Z - Resultado: Sucesso - Senha válida.
+2025-08-07T08:48:52.252Z - 
+[LOGIN ATTEMPT]
+2025-08-07T08:48:52.254Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-07T08:48:52.279Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-07T08:48:52.359Z - Resultado: Sucesso - Senha válida.
+2025-08-07T13:56:09.312Z - 
+[LOGIN ATTEMPT]
+2025-08-07T13:56:09.314Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-07T13:56:09.476Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-07T13:56:09.558Z - Resultado: Sucesso - Senha válida.
+2025-08-07T21:25:56.893Z - 
+[LOGIN ATTEMPT]
+2025-08-07T21:25:56.894Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-07T21:25:56.977Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-07T21:25:57.061Z - Resultado: Sucesso - Senha válida.
+2025-08-08T01:20:00.240Z - 
+[LOGIN ATTEMPT]
+2025-08-08T01:20:00.242Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-08T01:20:00.266Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-08T01:20:00.349Z - Resultado: Sucesso - Senha válida.
+2025-08-08T01:24:47.369Z - 
+[LOGIN ATTEMPT]
+2025-08-08T01:24:47.370Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-08T01:24:47.374Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-08T01:24:47.451Z - Resultado: Sucesso - Senha válida.
+2025-08-08T08:17:18.904Z - 
+[LOGIN ATTEMPT]
+2025-08-08T08:17:18.913Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-08T08:17:19.297Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-08T08:17:19.387Z - Resultado: Sucesso - Senha válida.
+2025-08-08T08:20:08.982Z - 
+[LOGIN ATTEMPT]
+2025-08-08T08:20:08.987Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-08T08:20:09.003Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-08T08:20:09.106Z - Resultado: Sucesso - Senha válida.
+2025-08-08T09:24:15.468Z - 
+[LOGIN ATTEMPT]
+2025-08-08T09:24:15.469Z - Recebido no req.body: {"email":"admin@example.com","password":"admin123"}
+2025-08-08T09:24:15.680Z - Usuário 'admin@example.com' encontrado. Comparando senhas...
+2025-08-08T09:24:15.768Z - Resultado: Sucesso - Senha válida.
+2025-08-08T09:51:17.246Z - 
+[LOGIN ATTEMPT]
+2025-08-08T09:51:17.251Z - Recebido no req.body: {"email":"janaina@assistente.com","password":"janaina"}
+2025-08-08T09:51:17.284Z - Usuário 'janaina@assistente.com' encontrado. Comparando senhas...
+2025-08-08T09:51:17.377Z - Resultado: Sucesso - Senha válida.

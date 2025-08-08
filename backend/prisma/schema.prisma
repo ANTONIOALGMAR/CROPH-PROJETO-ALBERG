@@ -1,0 +1,124 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_URI")
+}
+
+enum Role {
+  ADMIN
+  ASSISTENTE
+  ORIENTADOR
+}
+
+model User {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  email         String       @unique
+  passwordHash  String @map("password")
+  role          Role
+  nome          String       // Keep existing field
+  createdAt     DateTime     @default(now())
+  ocorrencias   Ocorrencia[]
+}
+
+enum TipoAtividade {
+  PRESENCA
+  FALTA
+  CAFE
+  ALMOCO
+  JANTAR
+}
+
+model Convivente {
+  id                    String                 @id @default(auto()) @map("_id") @db.ObjectId
+  nome                  String
+  leito                 Int                    @unique
+  cpf                   String?                @unique
+  rg                    String?
+  dataNascimento        DateTime
+  quarto                String?
+  assistenteSocial      String?
+  email                 String?
+  photoUrl              String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  participacoesRefeicao ParticipacaoRefeicao[]
+  presencas             Presenca[]
+  registros             RegistroAtividade[]
+}
+
+model RegistroAtividade {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  convivente  Convivente @relation(fields: [conviventeId], references: [id])
+  conviventeId String     @db.ObjectId
+  tipo        TipoAtividade
+  data        DateTime   @default(now())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Ocorrencia {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  titulo    String
+  descricao String
+  data      DateTime @default(now())
+  autorId   String?  @db.ObjectId
+  autor     User?    @relation(fields: [autorId], references: [id])
+}
+
+model ParticipacaoRefeicao {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  leito        Int
+  data         DateTime
+  tipo         TipoRefeicao
+  participou   Boolean        @default(false)
+
+  conviventeId String?        @db.ObjectId
+  convivente   Convivente?    @relation(fields: [conviventeId], references: [id])
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@unique([leito, data, tipo])
+  @@map("participacoesRefeicao")
+}
+
+model Presenca {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  leito        Int
+  data         DateTime
+  presente     Boolean       @default(false)
+
+  conviventeId String?       @db.ObjectId
+  convivente   Convivente?   @relation(fields: [conviventeId], references: [id])
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@unique([leito, data])
+  @@map("presencas")
+}
+
+enum TipoRefeicao {
+  CAFE
+  ALMOCO
+  JANTAR
+}
+
+enum LeitoStatus {
+  DISPONIVEL
+  MANUTENCAO
+  INTERDITADO
+  LIMPEZA
+}
+
+model Leito {
+  id      String      @id @default(auto()) @map("_id") @db.ObjectId
+  numero  Int         @unique
+  status  LeitoStatus @default(DISPONIVEL)
+  motivo  String?
+  updatedAt DateTime  @updatedAt
+}
